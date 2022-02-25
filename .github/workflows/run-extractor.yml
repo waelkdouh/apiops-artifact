@@ -29,7 +29,6 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: publish-extractor.yml
           name: extractor
-          repo: waelkdouh/apiops-tools
           
       - name: Run extractor
         env:
