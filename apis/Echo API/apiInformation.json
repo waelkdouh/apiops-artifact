@@ -3,7 +3,7 @@
   "properties": {
     "apiRevision": "1",
     "authenticationSettings": {},
-    "displayName": "Echo API from feature branch 4",
+    "displayName": "Echo API from feature branch 5",
     "isCurrent": true,
     "path": "echo",
     "protocols": [
