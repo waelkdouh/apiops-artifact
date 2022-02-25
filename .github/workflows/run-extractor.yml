@@ -42,12 +42,12 @@ jobs:
         run: |
           chmod +x ./extractor
           ./extractor
-          ls -la /tmp/apiops-extractor
+          ls -la ${{ env.API_MANAGEMENT_SERVICE_NAME }}
       - name: publish artifact
         uses: actions/upload-artifact@v2
         with:
           name: artifacts-from-portal
-          path: /tmp/apiops-extractor     
+          path: ${{ env.API_MANAGEMENT_SERVICE_NAME }}
           
   create-pull-request:
     needs: extract
