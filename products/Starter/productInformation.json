@@ -1,0 +1,17 @@
+{
+  "name": "starter",
+  "properties": {
+    "displayName": "Starter",
+    "approvalRequired": false,
+    "description": "Subscribers will be able to run 5 calls/minute up to a maximum of 100 calls/week.",
+    "state": "published",
+    "subscriptionRequired": true,
+    "subscriptionsLimit": 1,
+    "terms": ""
+  },
+  "apis": [
+    {
+      "displayName": "Echo API"
+    }
+  ]
+}
