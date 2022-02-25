@@ -43,7 +43,6 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: publish-creator.yml
           name: creator
-          repo: waelkdouh/apiops-tools
 
       - name: Run creator
         env:
