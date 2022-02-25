@@ -1,0 +1,20 @@
+{
+  "name": "waelhttp",
+  "properties": {
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "description": "",
+    "displayName": "waelhttp 10",
+    "isCurrent": true,
+    "path": "",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://www.bing.com",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}
