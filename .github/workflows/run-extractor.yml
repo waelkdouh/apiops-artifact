@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: artifacts-from-portal
-          path: ${{ env.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}
+          path: ${{ GITHUB.WORKSPACE }}/artifacts
           
   create-pull-request:
     needs: extract
