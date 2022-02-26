@@ -1,0 +1,20 @@
+{
+  "name": "bing",
+  "properties": {
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "description": "",
+    "displayName": "Bing",
+    "isCurrent": true,
+    "path": "",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://www.bing.com",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}
