@@ -1,0 +1,20 @@
+{
+  "name": "hellofromlogic",
+  "properties": {
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "description": "Azure Logic App.",
+    "displayName": "HelloFromLogic",
+    "isCurrent": true,
+    "path": "hellologicapp",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://prod-20.northcentralus.logic.azure.com/workflows/2008b5fa23054149a6ad4f0665042488/triggers",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}
