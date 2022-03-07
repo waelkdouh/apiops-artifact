@@ -15,7 +15,7 @@
     <base />
     <cors allow-credentials="true">
       <allowed-origins>
-        <origin>https://1000-democonference.azure-api.net</origin>
+        <origin>https://2000-democonference.azure-api.net</origin>
       </allowed-origins>
       <allowed-methods preflight-result-max-age="300">
         <method>*</method>
