@@ -322,6 +322,8 @@ public class Creator : ConsoleService
 
     private FileInfo CheckIfCustomFileExists(FileInfo file)
     {
+        Logger.LogInformation($"Wael: The overlay directory is {this.overlayDirectory}...");
+
         if (this.overlayDirectory != null)
         {
             if (!string.IsNullOrEmpty(file.DirectoryName))
