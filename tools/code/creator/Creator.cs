@@ -334,10 +334,9 @@ public class Creator : ConsoleService
                 var filePathExcludingCurrentDirectory = file.FullName.Remove(0, this.serviceDirectory.FullName.Length);
                 string pathToCustomFile = string.Concat(customDirectory, filePathExcludingCurrentDirectory);
               
-                Logger.LogInformation($"wael- before check: pathToCustomFile is {pathToCustomFile}...");
+                Logger.LogInformation($"wael - pathToCustomFile is {pathToCustomFile}...");
                 if (File.Exists(pathToCustomFile))
                 {
-                    Logger.LogInformation($"wael- after check: pathToCustomFile is {pathToCustomFile}...");
                     FileInfo customfile = new FileInfo(pathToCustomFile);
                     return customfile;
                 }
