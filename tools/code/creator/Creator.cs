@@ -307,7 +307,7 @@ public class Creator : ConsoleService
     {
         // Check if custom policy exists
         var fileToProcess= CheckIfCustomFileExists(file);
-        Logger.LogInformation($"The overlay directory is {overlayDirectory?.FullName}...");
+        
         var policyText = await fileToProcess.ReadAsText(cancellationToken);
 
         using var stream = new MemoryStream();
@@ -328,6 +328,7 @@ public class Creator : ConsoleService
             if (!string.IsNullOrEmpty(file.DirectoryName))
             {
                 string customDirectory = this.overlayDirectory.FullName;
+                Logger.LogInformation($"The overlay directory is {customDirectory}...");
 
                 // check if an overlay is provided
                 var filePathExcludingCurrentDirectory = file.FullName.Remove(0, this.serviceDirectory.FullName.Length);
