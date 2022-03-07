@@ -307,7 +307,7 @@ public class Creator : ConsoleService
     {
         // Check if custom policy exists
         var fileToProcess= CheckIfCustomFileExists(file);
-        Logger.LogInformation($"The overlay directory is {overlayDirectory.FullName}...");
+        Logger.LogInformation($"The overlay directory is {overlayDirectory?.FullName}...");
         var policyText = await fileToProcess.ReadAsText(cancellationToken);
 
         using var stream = new MemoryStream();
