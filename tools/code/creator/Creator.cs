@@ -308,8 +308,6 @@ public class Creator : ConsoleService
         // Check if custom policy exists
         var fileToProcess= CheckIfCustomFileExists(file);
 
-        Logger.LogInformation($"Wael: call checkifcustomfilexists {this.overlayDirectory}...");
-
         var policyText = await fileToProcess.ReadAsText(cancellationToken);
 
         using var stream = new MemoryStream();
@@ -324,8 +322,7 @@ public class Creator : ConsoleService
 
     private FileInfo CheckIfCustomFileExists(FileInfo file)
     {
-        Logger.LogInformation($"Wael: The overlay directory is {this.overlayDirectory}...");
-
+     
         if (this.overlayDirectory != null)
         {
             if (!string.IsNullOrEmpty(file.DirectoryName))
