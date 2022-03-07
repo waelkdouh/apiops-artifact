@@ -328,11 +328,12 @@ public class Creator : ConsoleService
             if (!string.IsNullOrEmpty(file.DirectoryName))
             {
                 string customDirectory = this.overlayDirectory.FullName;
-                Logger.LogInformation($"The overlay directory is {customDirectory}...");
+                
 
                 // check if an overlay is provided
                 var filePathExcludingCurrentDirectory = file.FullName.Remove(0, this.serviceDirectory.FullName.Length);
                 string pathToCustomFile = string.Concat(customDirectory, filePathExcludingCurrentDirectory);
+                Logger.LogInformation($"wael: pathToCustomFile is {pathToCustomFile}...");
 
                 if (File.Exists(pathToCustomFile))
                 {
