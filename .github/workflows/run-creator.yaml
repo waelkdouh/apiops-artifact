@@ -16,7 +16,7 @@ on:
 
 env:
   AZURE_RESOURCE_GROUP_NAME: rg-apim-lab  # Replace this value
-  API_MANAGEMENT_SERVICE_NAME: apim-wk-02072022  # Replace this value  
+  API_MANAGEMENT_SERVICE_NAME: apim-wk-02072022  # Replace this value 
 
   TMPDIR: "./"
   
@@ -55,6 +55,7 @@ jobs:
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           AZURE_RESOURCE_GROUP_NAME: ${{ env.AZURE_RESOURCE_GROUP_NAME }}
           API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ GITHUB.WORKSPACE }}/artifacts
+          OVERLAY_PATH: ${{ GITHUB.WORKSPACE }}/Overlay/Prod
           COMMIT_ID: ${{ env.COMMIT_ID }}
         run: |
           chmod +x ./creator
