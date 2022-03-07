@@ -333,10 +333,10 @@ public class Creator : ConsoleService
                 // check if an overlay is provided
                 var filePathExcludingCurrentDirectory = file.FullName.Remove(0, this.serviceDirectory.FullName.Length);
                 string pathToCustomFile = string.Concat(customDirectory, filePathExcludingCurrentDirectory);
-                Logger.LogInformation($"wael: pathToCustomFile is {pathToCustomFile}...");
-
+              
                 if (File.Exists(pathToCustomFile))
                 {
+                    Logger.LogInformation($"wael: pathToCustomFile is {pathToCustomFile}...");
                     FileInfo customfile = new FileInfo(pathToCustomFile);
                     return customfile;
                 }
