@@ -17,7 +17,7 @@
       <allowed-origins>
         <origin>https://api-level-bing.azure-api.net</origin>
       </allowed-origins>
-      <allowed-methods preflight-result-max-age="346">
+      <allowed-methods preflight-result-max-age="370">
         <method>*</method>
       </allowed-methods>
       <allowed-headers>
