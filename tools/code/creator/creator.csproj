@@ -5,11 +5,16 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <UserSecretsId>05a138d4-2528-4536-b7d8-e2185a272594</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.5.0" />
     <PackageReference Include="MedallionShell.StrongName" Version="1.6.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
+    <PackageReference Include="morelinq" Version="3.3.2" />
+    <PackageReference Include="NetEscapades.Configuration.Yaml" Version="2.2.0" />
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,25 +22,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Using Include="Azure.Core" />
-    <Using Include="Azure.Identity" />
-    <Using Include="Azure.ResourceManager" />
-    <Using Include="common" />
-    <Using Include="Flurl" />
-    <Using Include="Medallion.Shell" />
-    <Using Include="Microsoft.Extensions.Configuration"/>
-    <Using Include="Microsoft.Extensions.DependencyInjection" />
-    <Using Include="Microsoft.Extensions.Hosting" />
-    <Using Include="Microsoft.Extensions.Logging" />
-    <Using Include="System" />
-    <Using Include="System.Collections.Generic" />
-    <Using Include="System.Collections.Immutable" />
-    <Using Include="System.Diagnostics.CodeAnalysis" />
-    <Using Include="System.IO" />
-    <Using Include="System.Linq" />
-    <Using Include="System.Text.Json.Nodes" />
-    <Using Include="System.Threading" />
-    <Using Include="System.Threading.Tasks" />
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
