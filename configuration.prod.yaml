@@ -1,0 +1,25 @@
+apimServiceName: apim-prod-wk-03022022
+namedValues:
+  - name: environment
+    displayName: environment
+    value: prod
+  - name: SearchEngineBackendURL
+    displayName: SearchEngineBackendURL
+    value: https://www.search.com
+loggers:
+    - name: apim-lab-insights
+      loggerType: applicationInsights
+      description: apim lab prod app insights
+      resourceId: "/subscriptions/77fadbdc-74f1-4ce8-8962-b34400a1f170/resourceGroups/rg-apim-lab-prod/providers/microsoft.insights/components/apim-lab-prod-insights"
+      credentials:
+        instrumentationKey: "{{Logger-Credentials--62390d98217d201158b4bfb3}}"
+      isBuffered: true
+diagnostics:
+   - name: applicationinsights
+     verbosity: Error
+apis:
+  - name: "demo-conference-api"
+    diagnostics:
+      - name: applicationinsights
+        verbosity: Error
+        loggerId: "/subscriptions/77fadbdc-74f1-4ce8-8962-b34400a1f170/resourceGroups/rg-apim-lab-prod/providers/Microsoft.ApiManagement/service/apim-prod-wk-03022022/loggers/apim-lab-insights"
