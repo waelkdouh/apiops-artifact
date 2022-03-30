@@ -1,9 +1,0 @@
-{
-  "name": "SearchEngineBackendURL",
-  "properties": {
-    "displayName": "SearchEngineBackendURL",
-    "secret": false,
-    "tags": [],
-    "value": "https://www.bing.com"
-  }
-}
