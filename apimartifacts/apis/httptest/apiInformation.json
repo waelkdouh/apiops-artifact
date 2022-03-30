@@ -1,0 +1,15 @@
+{
+  "name": "httptest",
+  "properties": {
+    "path": "httptest",
+    "displayName": "httptest",
+    "apiRevision": "1",
+    "description": "",
+    "isCurrent": true,
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://www.bing.com",
+    "subscriptionRequired": true
+  }
+}
