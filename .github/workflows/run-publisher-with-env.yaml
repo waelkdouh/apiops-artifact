@@ -38,6 +38,7 @@ jobs:
       - uses: stoplightio/spectral-action@v0.8.0
         with:
           file_glob: '${{ GITHUB.WORKSPACE }}/${{ inputs.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}/api/*.yaml'
+          spectral_ruleset: 'https://raw.githubusercontent.com/connectedcircuits/devops-api-linter/main/rules.yaml'
       
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
