@@ -14,6 +14,13 @@ paths:
       responses:
         '200':
           description: ''
+  /testforpriti:
+    get:
+      summary: testforpriti
+      operationId: testforpriti
+      responses:
+        '200':
+          description: 
 components:
   securitySchemes:
     apiKeyHeader:
