@@ -6,10 +6,7 @@ on:
       CONFIGURATION_YAML_PATH:
         description: 'Extraction configuration file'     
         required: true
-        type: choice     
-        options:
-        - ''
-        - 'configuration.extractor.yaml'
+        type: string     
  
 jobs:
   extract:
