@@ -51,7 +51,6 @@ jobs:
           API_MANAGEMENT_SERVICE_NAME: ${{ secrets.API_MANAGEMENT_SERVICE_NAME }}
           CONFIGURATION_YAML_PATH:  ${{ GITHUB.WORKSPACE }}/${{ inputs.CONFIGURATION_YAML_PATH }}
           API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ GITHUB.WORKSPACE }}/apimartifacts  # change this to the artifacts folder
-          if: ${{ inputs.CONFIGURATION_YAML_PATH == '' }}
         run: |
           chmod +x ./extractor
           ./extractor
