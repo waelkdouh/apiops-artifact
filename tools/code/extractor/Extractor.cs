@@ -23,6 +23,7 @@ internal class Extractor : BackgroundService
     private readonly ServiceProviderUri serviceProviderUri;
     private readonly ServiceName serviceName;
     private readonly ApiSpecificationFormat specificationFormat;
+    private readonly ConfigurationModel configurationModel;
 
     public Extractor(IHostApplicationLifetime applicationLifetime, ILogger<Extractor> logger, IConfiguration configuration, AzureHttpClient azureHttpClient, NonAuthenticatedHttpClient nonAuthenticatedHttpClient)
     {
@@ -36,6 +37,7 @@ internal class Extractor : BackgroundService
         this.serviceProviderUri = GetServiceProviderUri(configuration, azureHttpClient);
         this.serviceName = ServiceName.From(configuration.GetValue("API_MANAGEMENT_SERVICE_NAME"));
         this.specificationFormat = GetSpecificationFormat(configuration);
+        this.configurationModel = configuration.Get<ConfigurationModel>();
     }
 
     private static ServiceDirectory GetServiceDirectory(IConfiguration configuration) =>
@@ -95,6 +97,7 @@ internal class Extractor : BackgroundService
         await ExportLoggers(cancellationToken);
         await ExportProducts(cancellationToken);
         await ExportApis(cancellationToken);
+        await ExportVersionSets(cancellationToken);
         await ExportDiagnostics(cancellationToken);
     }
 
@@ -152,9 +155,14 @@ internal class Extractor : BackgroundService
         var gatewayName = GatewayName.From(gateway.Name);
 
         var jsonArray = new JsonArray();
-        await GatewayApi.List(getResources, serviceProviderUri, serviceName, gatewayName, cancellationToken)
-                        .Select(api => new JsonObject().AddProperty("name", api.Name))
-                        .ForEachAsync(jsonObject => jsonArray.Add(jsonObject), cancellationToken);
+
+        var apis =
+            configurationModel.ApiDisplayNames is not null
+            ? GatewayApi.List(getResources, serviceProviderUri, serviceName, gatewayName, configurationModel.ApiDisplayNames, cancellationToken)
+            : GatewayApi.List(getResources, serviceProviderUri, serviceName, gatewayName, cancellationToken);
+
+        await apis.Select(api => new JsonObject().AddProperty("name", api.Name))
+                  .ForEachAsync(jsonObject => jsonArray.Add(jsonObject), cancellationToken);
 
         if (jsonArray.Any())
         {
@@ -267,9 +275,14 @@ internal class Extractor : BackgroundService
         var productName = ProductName.From(product.Name);
 
         var jsonArray = new JsonArray();
-        await ProductApi.List(getResources, serviceProviderUri, serviceName, productName, cancellationToken)
-                        .Select(api => new JsonObject().AddProperty("name", api.Name))
-                        .ForEachAsync(jsonObject => jsonArray.Add(jsonObject), cancellationToken);
+
+        var apis =
+            configurationModel.ApiDisplayNames is not null
+            ? ProductApi.List(getResources, serviceProviderUri, serviceName, productName, configurationModel.ApiDisplayNames, cancellationToken)
+            : ProductApi.List(getResources, serviceProviderUri, serviceName, productName, cancellationToken);
+
+        await apis.Select(api => new JsonObject().AddProperty("name", api.Name))
+                  .ForEachAsync(jsonObject => jsonArray.Add(jsonObject), cancellationToken);
 
         if (jsonArray.Any())
         {
@@ -308,9 +321,34 @@ internal class Extractor : BackgroundService
         await file.OverwriteWithJson(json, cancellationToken);
     }
 
+    private async ValueTask ExportVersionSets(CancellationToken cancellationToken)
+    {
+        var versionSets = ApiVersionSet.List(getResources, serviceProviderUri, serviceName, cancellationToken);
+
+        await Parallel.ForEachAsync(versionSets, cancellationToken, ExportVersionSet);
+    }
+
+    private async ValueTask ExportVersionSet(common.Models.ApiVersionSet apiVersionSet, CancellationToken cancellationToken)
+    {
+        logger.LogInformation("Exporting information for version set {versionSetName}...", apiVersionSet.Name);
+
+        var apisDirectory = ApisDirectory.From(serviceDirectory);
+        var apiDisplayName = ApiDisplayName.From(apiVersionSet.Properties.DisplayName);
+
+        var apiDirectory = ApiVersionSetDirectory.From(apisDirectory, apiDisplayName);
+
+        var file = ApiVersionSetInformationFile.From(apiDirectory);
+        var json = ApiVersionSet.Serialize(apiVersionSet);
+
+        await file.OverwriteWithJson(json, cancellationToken);
+    }
+
     private async ValueTask ExportApis(CancellationToken cancellationToken)
     {
-        var apis = Api.List(getResources, serviceProviderUri, serviceName, cancellationToken);
+        var apis =
+            configurationModel.ApiDisplayNames is not null
+            ? Api.List(getResources, serviceProviderUri, serviceName, configurationModel.ApiDisplayNames, cancellationToken)
+            : Api.List(getResources, serviceProviderUri, serviceName, cancellationToken);
 
         await Parallel.ForEachAsync(apis, cancellationToken, ExportApi);
     }
@@ -330,7 +368,10 @@ internal class Extractor : BackgroundService
 
         var apisDirectory = ApisDirectory.From(serviceDirectory);
         var apiDisplayName = ApiDisplayName.From(api.Properties.DisplayName);
-        var apiDirectory = ApiDirectory.From(apisDirectory, apiDisplayName);
+        var apiVersion = ApiVersion.From(api.Properties.ApiVersion);
+        var apiRevision = ApiRevision.From(api.Properties.ApiRevision);
+
+        var apiDirectory = ApiDirectory.From(apisDirectory, apiDisplayName, apiVersion, apiRevision);
         var file = ApiInformationFile.From(apiDirectory);
         var json = Api.Serialize(api);
 
@@ -348,7 +389,9 @@ internal class Extractor : BackgroundService
 
             var apisDirectory = ApisDirectory.From(serviceDirectory);
             var apiDisplayName = ApiDisplayName.From(api.Properties.DisplayName);
-            var apiDirectory = ApiDirectory.From(apisDirectory, apiDisplayName);
+            var apiVersion = ApiVersion.From(api.Properties.ApiVersion);
+            var apiRevision = ApiRevision.From(api.Properties.ApiRevision);
+            var apiDirectory = ApiDirectory.From(apisDirectory, apiDisplayName, apiVersion, apiRevision);
             var file = ApiPolicyFile.From(apiDirectory);
 
             await file.OverwriteWithText(policyText, cancellationToken);
@@ -361,7 +404,9 @@ internal class Extractor : BackgroundService
 
         var apisDirectory = ApisDirectory.From(serviceDirectory);
         var apiDisplayName = ApiDisplayName.From(api.Properties.DisplayName);
-        var apiDirectory = ApiDirectory.From(apisDirectory, apiDisplayName);
+        var apiVersion = ApiVersion.From(api.Properties.ApiVersion);
+        var apiRevision = ApiRevision.From(api.Properties.ApiRevision);
+        var apiDirectory = ApiDirectory.From(apisDirectory, apiDisplayName, apiVersion, apiRevision);
         var file = ApiSpecificationFile.From(apiDirectory, specificationFormat);
 
         var apiName = ApiName.From(api.Name);
@@ -386,7 +431,9 @@ internal class Extractor : BackgroundService
 
         var apisDirectory = ApisDirectory.From(serviceDirectory);
         var apiDisplayName = ApiDisplayName.From(api.Properties.DisplayName);
-        var apiDirectory = ApiDirectory.From(apisDirectory, apiDisplayName);
+        var apiVersion = ApiVersion.From(api.Properties.ApiVersion);
+        var apiRevision = ApiRevision.From(api.Properties.ApiRevision);
+        var apiDirectory = ApiDirectory.From(apisDirectory, apiDisplayName, apiVersion, apiRevision);
         var apiDiagnosticsDirectory = ApiDiagnosticsDirectory.From(apiDirectory);
         var apiDiagnosticName = ApiDiagnosticName.From(diagnostic.Name); ;
         var apiDiagnosticDirectory = ApiDiagnosticDirectory.From(apiDiagnosticsDirectory, apiDiagnosticName);
@@ -423,7 +470,9 @@ internal class Extractor : BackgroundService
 
             var apisDirectory = ApisDirectory.From(serviceDirectory);
             var apiDisplayName = ApiDisplayName.From(api.Properties.DisplayName);
-            var apiDirectory = ApiDirectory.From(apisDirectory, apiDisplayName);
+            var apiVersion = ApiVersion.From(api.Properties.ApiVersion);
+            var apiRevision = ApiRevision.From(api.Properties.ApiRevision);
+            var apiDirectory = ApiDirectory.From(apisDirectory, apiDisplayName, apiVersion, apiRevision);
             var apiOperationsDirectory = ApiOperationsDirectory.From(apiDirectory);
             var apiOperationDisplayName = ApiOperationDisplayName.From(apiOperation.Properties.DisplayName);
             var apiOperationDirectory = ApiOperationDirectory.From(apiOperationsDirectory, apiOperationDisplayName);

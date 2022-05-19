@@ -96,7 +96,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -160,6 +160,10 @@
               "target": "Package",
               "version": "[6.0.3, )"
             },
+            "NetEscapades.Configuration.Yaml": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Polly.Contrib.WaitAndRetry": {
               "target": "Package",
               "version": "[1.1.1, )"
@@ -180,7 +184,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

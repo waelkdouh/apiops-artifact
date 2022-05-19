@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "htsSbHFfyYFUpKHBtzaqffGCWvydFRy5GXhZZJlRYyeUzLIITOYXmWwNEIZdxidYlCqq3PzerAIpZk+fH4+UDQ==",
+  "dgSpecHash": "NNz2buFRqNsdWr9nAIjM6Dm5LyMmmA8l75bDT/qTfwdXGXCY0lHfbv96GLxa7mfHO2j1ZKL1HKqf4qKgxR7wxg==",
   "success": true,
   "projectFilePath": "C:\\Users\\waekdo\\Desktop\\apiops\\tools\\code\\extractor\\extractor.csproj",
   "expectedPackageFiles": [
@@ -50,6 +50,7 @@
     "C:\\Users\\waekdo\\.nuget\\packages\\microsoft.rest.clientruntime.azure\\3.3.18\\microsoft.rest.clientruntime.azure.3.3.18.nupkg.sha512",
     "C:\\Users\\waekdo\\.nuget\\packages\\microsoft.rest.clientruntime.azure.authentication\\2.4.1\\microsoft.rest.clientruntime.azure.authentication.2.4.1.nupkg.sha512",
     "C:\\Users\\waekdo\\.nuget\\packages\\microsoft.win32.primitives\\4.3.0\\microsoft.win32.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\waekdo\\.nuget\\packages\\netescapades.configuration.yaml\\2.2.0\\netescapades.configuration.yaml.2.2.0.nupkg.sha512",
     "C:\\Users\\waekdo\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
     "C:\\Users\\waekdo\\.nuget\\packages\\newtonsoft.json\\10.0.3\\newtonsoft.json.10.0.3.nupkg.sha512",
     "C:\\Users\\waekdo\\.nuget\\packages\\polly\\7.2.2\\polly.7.2.2.nupkg.sha512",
@@ -153,7 +154,8 @@
     "C:\\Users\\waekdo\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\waekdo\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\waekdo\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\waekdo\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
+    "C:\\Users\\waekdo\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
+    "C:\\Users\\waekdo\\.nuget\\packages\\yamldotnet\\11.2.1\\yamldotnet.11.2.1.nupkg.sha512"
   ],
   "logs": []
 }
