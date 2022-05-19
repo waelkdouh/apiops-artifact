@@ -5,11 +5,11 @@ on:
     inputs:
       CONFIGURATION_YAML_PATH:
         description: 'Extraction configuration file'     
-        required: false
+        required: true
         type: choice     
         options:
         - ''
-        - configuration.extractor.yaml
+        - 'configuration.extractor.yaml'
  
 jobs:
   extract:
