@@ -9,7 +9,7 @@ on:
         type: string     
         options:
         - ''
-        - configuration.extractor.yaml
+        - 'configuration.extractor.yaml'
  
 jobs:
   extract:
