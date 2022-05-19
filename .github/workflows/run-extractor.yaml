@@ -6,10 +6,10 @@ on:
       CONFIGURATION_YAML_PATH:
         description: 'Extraction configuration file'     
         required: false
-        type: string     
+        type: choice     
         options:
-        - foo
-        - bar
+        - ''
+        - configuration.extractor.yaml
  
 jobs:
   extract:
