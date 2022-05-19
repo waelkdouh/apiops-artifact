@@ -8,8 +8,8 @@ on:
         required: false
         type: string     
         options:
-        - ''
-        - 'configuration.extractor.yaml'
+        - foo
+        - bar
  
 jobs:
   extract:
