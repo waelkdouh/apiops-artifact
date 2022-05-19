@@ -1,9 +1,0 @@
-{
-  "name": "MyCustomGateway",
-  "properties": {
-    "description": "This is my custom gateway",
-    "locationData": {
-      "name": "www.wael.com"
-    }
-  }
-}
