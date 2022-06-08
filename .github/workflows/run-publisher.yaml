@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       COMMIT_ID:
-        description: 'Choose "Publish without Commit ID" only when you want to force republishing all artifacts (e.g. after build failure). Otherwise stick with the default behavior of "Publish with Commit ID'     
+        description: 'Choose "Publish without Commit ID" only when you want to force republishing all artifacts (e.g. after build failure). Otherwise stick with the default behavior of "Publish with Commit ID"'     
         required: true
         type: choice
         default: Publish-With-Commit-ID
