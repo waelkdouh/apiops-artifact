@@ -35,7 +35,7 @@ jobs:
     uses: ./.github/workflows/run-publisher-with-env.yaml
     with:
       API_MANAGEMENT_ENVIRONMENT: dev # change this to match the dev environment created in settings
-      if: ${{ github.event.inputs.COMMIT_ID == 'Publish-With-Commit-ID' }}
+      #if: ${{ github.event.inputs.COMMIT_ID == 'Publish-With-Commit-ID' }}
       COMMIT_ID: ${{ needs.get-commit.outputs.commit_id }} 
       API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: apimartifacts  # change this to the artifacts folder
     secrets:
@@ -52,7 +52,7 @@ jobs:
       API_MANAGEMENT_ENVIRONMENT: prod # change this to match the prod environment created in settings
       CONFIGURATION_YAML_PATH: configuration.prod.yaml # make sure the file is available at the root
       API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: apimartifacts  # change this to the artifacts folder
-      if: ${{ github.event.inputs.COMMIT_ID == 'Publish-With-Commit-ID' }}
+      #if: ${{ github.event.inputs.COMMIT_ID == 'Publish-With-Commit-ID' }}
       COMMIT_ID: ${{ needs.get-commit.outputs.commit_id }} 
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
