@@ -9,10 +9,16 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
-      git-ref:
-        description: Git Ref (Optional)    
-        required: false
-
+      COMMIT_ID:
+        description: 'Choose "Publish without Commit ID" only when you want to force republishing all artifacts (e.g. after build failure). Otherwise stick with the default behavior of "Publish with Commit ID'     
+        required: true
+        type: choice
+        default: Publish-With-Commit-ID
+        options:
+        - Publish-With-Commit-ID
+        - Publish-Without-Commit-ID
+        
+        
 jobs:
   get-commit:
     runs-on: ubuntu-latest
@@ -29,6 +35,7 @@ jobs:
     uses: ./.github/workflows/run-publisher-with-env.yaml
     with:
       API_MANAGEMENT_ENVIRONMENT: dev # change this to match the dev environment created in settings
+      if: ${{ github.event.inputs.COMMIT_ID == 'Publish-With-Commit-ID' }}
       COMMIT_ID: ${{ needs.get-commit.outputs.commit_id }} 
       API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: apimartifacts  # change this to the artifacts folder
     secrets:
@@ -45,7 +52,8 @@ jobs:
       API_MANAGEMENT_ENVIRONMENT: prod # change this to match the prod environment created in settings
       CONFIGURATION_YAML_PATH: configuration.prod.yaml # make sure the file is available at the root
       API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: apimartifacts  # change this to the artifacts folder
-      COMMIT_ID: ${{ needs.get-commit.outputs.commit_id }}
+      if: ${{ github.event.inputs.COMMIT_ID == 'Publish-With-Commit-ID' }}
+      COMMIT_ID: ${{ needs.get-commit.outputs.commit_id }} 
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
