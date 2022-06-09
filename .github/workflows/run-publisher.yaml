@@ -28,13 +28,10 @@ jobs:
         id: commit
         run: |
           echo "::set-output name=commit_id::${GITHUB_SHA}"
-      - name: Print the selected commit id parameter (upon manual trigger) or the default value when triggered via a PR
-        run: |
-          echo "::debug::The commit id parameter is ${{github.event.inputs.COMMIT_ID_CHOICE}}"
     outputs:
           commit_id: ${{ steps.commit.outputs.commit_id }}
   #Publish with Commit ID
-  Push-Changes-To-APIM-Dev:
+  Push-Changes-To-APIM-Dev-With-Commit-ID:
     if: (github.event.inputs.COMMIT_ID_CHOICE == 'Publish-With-Commit-ID' || github.event.inputs.COMMIT_ID_CHOICE == '')
     needs: get-commit
     uses: ./.github/workflows/run-publisher-with-env.yaml
