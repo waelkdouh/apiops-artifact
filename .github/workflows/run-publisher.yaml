@@ -10,10 +10,10 @@ on:
   workflow_dispatch:
     inputs:
       COMMIT_ID_CHOICE:
-        description: 'Choose "Publish without Commit ID" only when you want to force republishing all artifacts (e.g. after build failure). Otherwise stick with the default behavior of "Publish with Commit ID"'     
+        description: 'Choose "publish-all-artifacts-in-repo" only when you want to force republishing all artifacts (e.g. after build failure). Otherwise stick with the default behavior of "publish-extracted-artifacts-in-last-commit"'     
         required: true
         type: choice
-        default: 'Publish-With-Commit-ID'
+        default: 'publish-extracted-artifacts-in-last-commit'
         options:
         - 'Publish-With-Commit-ID'
         - 'Publish-Without-Commit-ID'
