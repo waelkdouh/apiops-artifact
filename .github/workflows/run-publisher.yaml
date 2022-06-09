@@ -9,7 +9,7 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
-      COMMIT_ID:
+      COMMIT_ID_CHOICE:
         description: 'Choose "Publish without Commit ID" only when you want to force republishing all artifacts (e.g. after build failure). Otherwise stick with the default behavior of "Publish with Commit ID"'     
         required: true
         type: choice
@@ -30,7 +30,7 @@ jobs:
           echo "::set-output name=commit_id::${GITHUB_SHA}"
       - name: Print the selected commit id parameter (upon manual trigger) or the default value when triggered via a PR
         run: |
-          echo "::debug::The commit id parameter is ${{github.event.inputs.COMMIT_ID}}"
+          echo "::debug::The commit id parameter is ${{github.event.inputs.COMMIT_ID_CHOICE}}"
     outputs:
           commit_id: ${{ steps.commit.outputs.commit_id }}
   create-dev:
@@ -38,7 +38,7 @@ jobs:
     uses: ./.github/workflows/run-publisher-with-env.yaml
     with:
       API_MANAGEMENT_ENVIRONMENT: dev # change this to match the dev environment created in settings
-      #if: ${{ github.event.inputs.COMMIT_ID == 'Publish-With-Commit-ID' }}
+      if: ${{ github.event.inputs.COMMIT_ID_CHOICE == 'Publish-With-Commit-ID' }}
       COMMIT_ID: ${{ needs.get-commit.outputs.commit_id }} 
       API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: apimartifacts  # change this to the artifacts folder
     secrets:
@@ -55,7 +55,7 @@ jobs:
       API_MANAGEMENT_ENVIRONMENT: prod # change this to match the prod environment created in settings
       CONFIGURATION_YAML_PATH: configuration.prod.yaml # make sure the file is available at the root
       API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: apimartifacts  # change this to the artifacts folder
-      #if: ${{ github.event.inputs.COMMIT_ID == 'Publish-With-Commit-ID' }}
+      #if: ${{ github.event.inputs.COMMIT_ID_CHOICE == 'Publish-With-Commit-ID' }}
       COMMIT_ID: ${{ needs.get-commit.outputs.commit_id }} 
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
