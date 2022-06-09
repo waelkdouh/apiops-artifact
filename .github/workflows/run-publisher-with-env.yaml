@@ -55,7 +55,7 @@ jobs:
           name: publisher         
 
       - name: Run publisher without Config Yaml but with Commit ID
-        if: ${{ inputs.CONFIGURATION_YAML_PATH == '' }}
+        if: ${{ inputs.CONFIGURATION_YAML_PATH == '' }} &&  ${{inputs.COMMIT_ID != ''}}
         env:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -69,7 +69,7 @@ jobs:
           ./publisher        
           
       - name: Run publisher without Config Yaml or Commit ID
-        if: ${{ inputs.CONFIGURATION_YAML_PATH == '' &&  inputs.COMMIT_ID == ''}}
+        if: ${{ inputs.CONFIGURATION_YAML_PATH == '' }} &&  ${{inputs.COMMIT_ID == ''}}
         env:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -82,7 +82,7 @@ jobs:
           ./publisher        
       
       - name: Run publisher with Config Yaml and Commit id
-        if: ${{ inputs.CONFIGURATION_YAML_PATH != '' }}
+        if: ${{ inputs.CONFIGURATION_YAML_PATH != '' }} && ${{inputs.COMMIT_ID != ''}}
         env:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -98,7 +98,7 @@ jobs:
      
           
       - name: Run publisher with Config Yaml but without Commit id
-        if: ${{ inputs.CONFIGURATION_YAML_PATH != '' &&  inputs.COMMIT_ID == ''}}
+        if: ${{ inputs.CONFIGURATION_YAML_PATH != '' }} && ${{inputs.COMMIT_ID == ''}}
         env:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
