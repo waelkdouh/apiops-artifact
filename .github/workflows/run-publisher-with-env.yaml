@@ -12,7 +12,8 @@ on:
         type: string     
       COMMIT_ID:
         required: false
-        type: string       
+        type: string
+        default: ''
       API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: 
         required: true
         type: string          
