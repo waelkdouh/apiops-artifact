@@ -48,7 +48,7 @@ jobs:
 
       - name: Print the selected commit id parameter (upon manual trigger) or the default value when triggered via a PR
         run: |
-          echo "::debug::The COMMIT_ID parameter is ${{inputs.COMMIT_ID}} and the CONFIGURATION_YAML_PATH parameter is ${{ inputs.CONFIGURATION_YAML_PATH}}. The result of logican anding is  ${{ inputs.CONFIGURATION_YAML_PATH == '' }} &&  ${{inputs.COMMIT_ID != ''}}"
+          echo "::debug::The COMMIT_ID parameter is ${{inputs.COMMIT_ID}} and the CONFIGURATION_YAML_PATH parameter is ${{ inputs.CONFIGURATION_YAML_PATH}}. The result of logican anding is  ${{ inputs.CONFIGURATION_YAML_PATH == '' &&  inputs.COMMIT_ID != ''}}"
 
       # Download the Publisher binary
       - name: Download artifact
