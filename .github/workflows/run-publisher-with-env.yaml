@@ -40,12 +40,16 @@ jobs:
           node-version: '14'
       - run: npm install -g @stoplight/spectral
       - run: spectral lint "${{ GITHUB.WORKSPACE }}/${{ inputs.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}\apis\*.{json,yml,yaml}" --ruleset https://raw.githubusercontent.com/connectedcircuits/devops-api-linter/main/rules.yaml
-      
+     
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
           fetch-depth: 2
-          
+
+      - name: Print the selected commit id parameter (upon manual trigger) or the default value when triggered via a PR
+        run: |
+          echo "::debug::The COMMIT_ID parameter is ${{inputs.COMMIT_ID}} and the CONFIGURATION_YAML_PATH parameter is ${{ inputs.CONFIGURATION_YAML_PATH}}. The result of logican anding is  ${{ inputs.CONFIGURATION_YAML_PATH == '' }} &&  ${{inputs.COMMIT_ID != ''}}"
+
       # Download the Publisher binary
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
