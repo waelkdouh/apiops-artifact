@@ -28,7 +28,7 @@ jobs:
         id: commit
         run: |
           echo "::set-output name=commit_id::${GITHUB_SHA}"
-      - name: Print the commit id parameter and the one parsed from the build
+      - name: Print the selected commit id parameter (upon manual trigger) or the default value when triggered via a PR
         run: |
           echo "::debug::The commit id parameter is ${{github.event.inputs.COMMIT_ID}}"
     outputs:
