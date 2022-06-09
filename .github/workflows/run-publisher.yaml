@@ -33,7 +33,8 @@ jobs:
           echo "::debug::The commit id parameter is ${{github.event.inputs.COMMIT_ID_CHOICE}}"
     outputs:
           commit_id: ${{ steps.commit.outputs.commit_id }}
-  create-dev-With-Commit-ID:
+  #Publish with Commit ID
+  Push-Changes-To-APIM-Dev:
     if: ${{ github.event.inputs.COMMIT_ID_CHOICE == 'Publish-With-Commit-ID' }}
     needs: get-commit
     uses: ./.github/workflows/run-publisher-with-env.yaml
@@ -48,7 +49,8 @@ jobs:
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}   
       AZURE_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
       API_MANAGEMENT_SERVICE_NAME: ${{ secrets.API_MANAGEMENT_SERVICE_NAME }}
-  create-dev-Without-Commit-ID:
+  #Publish without Commit ID. Publishes all artifacts that reside in the artifacts forlder
+  Push-Changes-To-APIM-Dev-Without-Commit-ID:
     if: ${{ github.event.inputs.COMMIT_ID_CHOICE == 'Publish-Without-Commit-ID' }}
     needs: get-commit
     uses: ./.github/workflows/run-publisher-with-env.yaml
@@ -62,9 +64,9 @@ jobs:
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}   
       AZURE_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
       API_MANAGEMENT_SERVICE_NAME: ${{ secrets.API_MANAGEMENT_SERVICE_NAME }}
-  create-prod-With-Commit-ID:
+  Push-Changes-To-APIM-Prod-With-Commit-ID:
     if: ${{ github.event.inputs.COMMIT_ID_CHOICE == 'Publish-With-Commit-ID' }}
-    needs: [get-commit, create-dev-With-Commit-ID]
+    needs: [get-commit, Push-Changes-To-APIM-Dev]
     uses: ./.github/workflows/run-publisher-with-env.yaml
     with:
       API_MANAGEMENT_ENVIRONMENT: prod # change this to match the prod environment created in settings
@@ -78,9 +80,9 @@ jobs:
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       AZURE_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
       API_MANAGEMENT_SERVICE_NAME: ${{ secrets.API_MANAGEMENT_SERVICE_NAME }} 
-  create-prod-Without-Commit-ID:
+  Push-Changes-To-APIM-Prod-Without-Commit-ID:
     if: ${{ github.event.inputs.COMMIT_ID_CHOICE == 'Publish-Without-Commit-ID' }}
-    needs: [get-commit, create-dev-Without-Commit-ID]
+    needs: [get-commit, Push-Changes-To-APIM-Dev-Without-Commit-ID]
     uses: ./.github/workflows/run-publisher-with-env.yaml
     with:
       API_MANAGEMENT_ENVIRONMENT: prod # change this to match the prod environment created in settings
