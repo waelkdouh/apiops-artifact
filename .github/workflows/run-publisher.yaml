@@ -63,7 +63,7 @@ jobs:
       API_MANAGEMENT_SERVICE_NAME: ${{ secrets.API_MANAGEMENT_SERVICE_NAME }}
   Push-Changes-To-APIM-Prod-With-Commit-ID:
     if:  (github.event.inputs.COMMIT_ID_CHOICE == 'Publish-With-Commit-ID' || github.event.inputs.COMMIT_ID_CHOICE == '')
-    needs: [get-commit, Push-Changes-To-APIM-Dev]
+    needs: [get-commit, Push-Changes-To-APIM-Dev-With-Commit-ID]
     uses: ./.github/workflows/run-publisher-with-env.yaml
     with:
       API_MANAGEMENT_ENVIRONMENT: prod # change this to match the prod environment created in settings
