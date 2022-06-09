@@ -30,7 +30,7 @@ jobs:
           echo "::set-output name=commit_id::${GITHUB_SHA}"
       - name: Print the commit id parameter and the one parsed from the build
         run: |
-          echo "::debug::The commit id parameter is $github.event.inputs.COMMIT_ID"
+          echo "::debug::The commit id parameter is ${{github.event.inputs.COMMIT_ID}}"
     outputs:
           commit_id: ${{ steps.commit.outputs.commit_id }}
   create-dev:
