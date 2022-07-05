@@ -15,10 +15,10 @@ on:
         required: true
         type: choice
         options:
-          - OpenAPIV3Yaml 
-          - OpenAPIV3Json
-          - OpenAPIV2Yaml
-          - OpenAPIV2Json
+        - OpenAPIV3Yaml 
+        - OpenAPIV3Json
+        - OpenAPIV2Yaml
+        - OpenAPIV2Json
  
 jobs:
   extract:
