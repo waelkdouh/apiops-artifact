@@ -1,0 +1,15 @@
+{
+  "name": "andreasapi",
+  "properties": {
+    "path": "andrea",
+    "displayName": "andreasapi",
+    "apiRevision": "1",
+    "description": "",
+    "isCurrent": true,
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://api.waelsconsulting.com/andrea",
+    "subscriptionRequired": true
+  }
+}

@@ -83,9 +83,7 @@ paths:
           text/plain:
             schema:
               $ref: '#/components/schemas/Body'
-            examples:
-              default:
-                value: 
+            example: ''
       responses:
         '200':
           description: OK
@@ -95,6 +93,7 @@ paths:
   /speakers:
     get:
       summary: GetSpeakers
+      description: GetSpeakers
       operationId: GetSpeakers
       parameters:
         - name: dayno
@@ -114,6 +113,7 @@ paths:
   '/speaker/{id}':
     get:
       summary: GetSpeaker
+      description: GetSpeaker
       operationId: GetSpeaker
       parameters:
         - name: id
@@ -131,6 +131,7 @@ paths:
   '/speaker/{id}/sessions':
     get:
       summary: GetSpeakerSessions
+      description: GetSpeakerSessions
       operationId: GetSpeakerSessions
       parameters:
         - name: id
@@ -147,6 +148,7 @@ paths:
   '/speaker/{id}/topics':
     get:
       summary: GetSpeakerTopics
+      description: GetSpeakerTopics
       operationId: GetSpeakerTopics
       parameters:
         - name: id
@@ -163,6 +165,7 @@ paths:
   /topics:
     get:
       summary: GetTopics
+      description: GetTopics
       operationId: GetTopics
       parameters:
         - name: dayno
@@ -178,6 +181,7 @@ paths:
   '/topic/{id}':
     get:
       summary: GetTopic
+      description: GetTopic
       operationId: GetTopic
       parameters:
         - name: id
@@ -194,6 +198,7 @@ paths:
   '/topic/{id}/speakers':
     get:
       summary: GetTopicSpeakers
+      description: GetTopicSpeakers
       operationId: GetTopicSpeakers
       parameters:
         - name: id
@@ -210,6 +215,7 @@ paths:
   '/topic/{id}/sessions':
     get:
       summary: GetTopicSessions
+      description: GetTopicSessions
       operationId: GetTopicSessions
       parameters:
         - name: id
