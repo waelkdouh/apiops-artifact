@@ -1,0 +1,29 @@
+openapi: 3.0.1
+info:
+  title: andreasapi
+  description: ''
+  version: '1.0'
+servers:
+  - url: https://api.waelsconsulting.com/andrea
+paths:
+  /box:
+    get:
+      summary: Box
+      description: ' /Box/{type}/{Id}/content'
+      operationId: box-type-id-content
+      responses:
+        '200':
+          description: ''
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]
