@@ -2,7 +2,15 @@ apimServiceName: apim-prod-wk-05102022
 namedValues:
   - name: environment
     displayName: environment
-    value: https://www.search.com
+    value: "https://www.search.com"
+  - name: mysecretvalue
+    displayName: mysecretvalue
+    keyVault:
+      identityClientId: f5cf4186-20c1-4e5b-abbf-abd174bee744
+      secretIdentifier: https://secretvaultwk.vault.azure.net/secrets/mysecretvalueprod
+  - name: testsecret
+    displayName: testsecret
+    value: "{#testSecretValue#}"
 loggers:
     - name: apim-lab-insights
       loggerType: applicationInsights
