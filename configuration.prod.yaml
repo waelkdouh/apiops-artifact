@@ -8,8 +8,8 @@ namedValues:
     keyVault:
       identityClientId: f5cf4186-20c1-4e5b-abbf-abd174bee744
       secretIdentifier: https://secretvaultwk.vault.azure.net/secrets/mysecretvalueprod
-  - name: testsecret
-    displayName: testsecret
+  - name: testSecret
+    displayName: testSecret
     value: "{#testSecretValue#}"
 loggers:
     - name: apim-lab-insights
