@@ -63,10 +63,7 @@ jobs:
           tokenPrefix: '{#'
           tokenSuffix: '#}'
           files: '["**/configuration.prod.yaml"]'
-        #env:
-          # testSecretValue: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          # testSecretValue: 'wael'
-      
+
       - name: Run publisher without Config Yaml but with Commit ID
         if: ( inputs.CONFIGURATION_YAML_PATH == '' &&  inputs.COMMIT_ID != '')
         env:
