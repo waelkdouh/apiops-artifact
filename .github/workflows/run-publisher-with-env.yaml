@@ -57,11 +57,12 @@ jobs:
       - name: Perform variable substitution in yaml file
         uses: cschleiden/replace-tokens@v1.1
         with:
-          tokenPrefix: '{'
-          tokenSuffix: '}'
+          tokenPrefix: '{#'
+          tokenSuffix: '#}'
           files: '["**/configuration.prod.yaml"]'
         env:
-          testSecretValue: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          # testSecretValue: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          testSecretValue: 'wael'
       
       - name: Run publisher without Config Yaml but with Commit ID
         if: ( inputs.CONFIGURATION_YAML_PATH == '' &&  inputs.COMMIT_ID != '')
