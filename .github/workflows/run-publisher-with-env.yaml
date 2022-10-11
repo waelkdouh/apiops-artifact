@@ -29,6 +29,9 @@ on:
         required: true
       AZURE_SUBSCRIPTION_ID:
         required: true   
+env:
+  testSecretValue: production42   
+  
 jobs:
   build:
     runs-on: ubuntu-latest
