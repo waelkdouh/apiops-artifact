@@ -62,7 +62,7 @@ jobs:
         with:
           tokenPrefix: '{#'
           tokenSuffix: '#}'
-          files: '["**/configuration.prod.yaml"]'
+          files: '["**/configuration.*.yaml"]'
 
       - name: Run publisher without Config Yaml but with Commit ID
         if: ( inputs.CONFIGURATION_YAML_PATH == '' &&  inputs.COMMIT_ID != '')
