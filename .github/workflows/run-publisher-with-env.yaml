@@ -30,7 +30,7 @@ on:
       AZURE_SUBSCRIPTION_ID:
         required: true   
 env:
-  testSecretValue: production42   
+  testSecretValue: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}   
   
 jobs:
   build:
