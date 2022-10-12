@@ -29,9 +29,7 @@ on:
         required: true
       AZURE_SUBSCRIPTION_ID:
         required: true   
-#env:
- # testSecretValue: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}   
-  
+        
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -64,7 +62,8 @@ jobs:
           tokenSuffix: '#}'
           files: '["**/configuration.*.yaml"]'
         env: 
-          testSecretValue: ${{ 'wael', secrets.AZURE_RESOURCE_GROUP_NAME }}
+          #testSecretValue: ${{ 'wael',  }}
+          testSecretValue: ${{ format('{0}{1}', secrets.AZURE_RESOURCE_GROUP_NAME, 'wael') }}
 
       - name: Run publisher without Config Yaml but with Commit ID
         if: ( inputs.CONFIGURATION_YAML_PATH == '' &&  inputs.COMMIT_ID != '')
