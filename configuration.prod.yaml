@@ -10,7 +10,7 @@ namedValues:
       secretIdentifier: https://secretvaultwk.vault.azure.net/secrets/mysecretvalueprod
   - name: testSecret
     displayName: testSecret
-    value: "wael"
+    value: "{#testSecretValue#}"
 loggers:
     - name: apim-lab-insights
       loggerType: applicationInsights
