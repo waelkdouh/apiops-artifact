@@ -55,7 +55,7 @@ jobs:
           workflow: publish-publisher.yaml
           name: publisher         
       
-      - name: Perform variable substitution in yaml file
+      - name: Perform name value secret substitution in configuration.[env].yaml file
         uses: cschleiden/replace-tokens@v1.1
         with:
           tokenPrefix: '{#'
