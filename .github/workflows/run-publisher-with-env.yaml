@@ -16,7 +16,19 @@ on:
       API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: 
         required: true
         type: string          
-    
+    secrets:
+      AZURE_RESOURCE_GROUP_NAME:
+        required: true
+      API_MANAGEMENT_SERVICE_NAME: 
+        required: true
+      AZURE_CLIENT_ID:
+        required: true
+      AZURE_CLIENT_SECRET:
+        required: true
+      AZURE_TENANT_ID:
+        required: true
+      AZURE_SUBSCRIPTION_ID:
+        required: true      
         
 jobs:
   build:
