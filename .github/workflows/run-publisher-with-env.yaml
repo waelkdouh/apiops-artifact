@@ -16,19 +16,7 @@ on:
       API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: 
         required: true
         type: string          
-    secrets:
-      AZURE_RESOURCE_GROUP_NAME:
-        required: true
-      API_MANAGEMENT_SERVICE_NAME: 
-        required: true
-      AZURE_CLIENT_ID:
-        required: true
-      AZURE_CLIENT_SECRET:
-        required: true
-      AZURE_TENANT_ID:
-        required: true
-      AZURE_SUBSCRIPTION_ID:
-        required: true   
+    
         
 jobs:
   build:
@@ -62,9 +50,9 @@ jobs:
           tokenSuffix: '#}'
           files: ${{ format('["**/configuration.{0}.yaml"]', inputs.API_MANAGEMENT_ENVIRONMENT) }}
         # specify environment specific secrets to be replaced
-       # if: (inputs.API_MANAGEMENT_ENVIRONMENT == 'Prod' )   
-        #env: 
-        # testSecretValue: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+        if: (inputs.API_MANAGEMENT_ENVIRONMENT == 'Prod' )   
+        env: 
+          testSecretValue: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
 
       - name: Run publisher without Config Yaml but with Commit ID
         if: ( inputs.CONFIGURATION_YAML_PATH == '' &&  inputs.COMMIT_ID != '')
