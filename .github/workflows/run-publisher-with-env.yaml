@@ -55,10 +55,8 @@ jobs:
           workflow: publish-publisher.yaml
           name: publisher         
       
-      - name: Print TESTSECRETVALUE value
-        run: echo ${{secrets.TESTSECRETVALUE }} | sed 's/./& /g'
-          
-      - name: Perform name value secret substitution in configuration.[env].yaml file
+         
+      - name: 'Perform namevalue secret substitution in configuration.${{ inputs.API_MANAGEMENT_ENVIRONMENT}}.yaml'
         uses: cschleiden/replace-tokens@v1.1
         with:
           tokenPrefix: '{#'
