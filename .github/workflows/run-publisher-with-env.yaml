@@ -50,7 +50,7 @@ jobs:
           tokenSuffix: '#}'
           files: ${{ format('["**/configuration.{0}.yaml"]', inputs.API_MANAGEMENT_ENVIRONMENT) }}
         # specify environment specific secrets to be replaced
-        if: (inputs.API_MANAGEMENT_ENVIRONMENT == 'Prod' )   
+        if: (inputs.API_MANAGEMENT_ENVIRONMENT == 'prod' )   
         env: 
           testSecretValue: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
 
