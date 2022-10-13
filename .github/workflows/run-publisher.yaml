@@ -48,7 +48,7 @@ jobs:
       API_MANAGEMENT_SERVICE_NAME: ${{ secrets.API_MANAGEMENT_SERVICE_NAME }}
   #Publish without Commit ID. Publishes all artifacts that reside in the artifacts forlder
   Push-Changes-To-APIM-Dev-Without-Commit-ID:
-    if: github.event.inputs.COMMIT_ID_CHOICE == 'publish-all-artifacts-in-repo'
+    if: ( github.event.inputs.COMMIT_ID_CHOICE == 'publish-all-artifacts-in-repo' )
     needs: get-commit
     uses: ./.github/workflows/run-publisher-with-env.yaml
     with:
@@ -78,7 +78,7 @@ jobs:
       AZURE_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
       API_MANAGEMENT_SERVICE_NAME: ${{ secrets.API_MANAGEMENT_SERVICE_NAME }} 
   Push-Changes-To-APIM-Prod-Without-Commit-ID:
-    if: ${{ github.event.inputs.COMMIT_ID_CHOICE == 'publish-all-artifacts-in-repo' }}
+    if: ( github.event.inputs.COMMIT_ID_CHOICE == 'publish-all-artifacts-in-repo' )
     needs: [get-commit, Push-Changes-To-APIM-Dev-Without-Commit-ID]
     uses: ./.github/workflows/run-publisher-with-env.yaml
     with:
