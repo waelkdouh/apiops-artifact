@@ -61,8 +61,8 @@ jobs:
           tokenPrefix: '{#'
           tokenSuffix: '#}'
           files: ${{ format('["**/configuration.{0}.yaml"]', inputs.API_MANAGEMENT_ENVIRONMENT) }}
-        #env: 
-        #  testSecretValue: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+        env: 
+          testSecretValue: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
 
       - name: Run publisher without Config Yaml but with Commit ID
         if: ( inputs.CONFIGURATION_YAML_PATH == '' &&  inputs.COMMIT_ID != '')
