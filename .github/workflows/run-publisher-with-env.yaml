@@ -42,14 +42,27 @@ jobs:
           workflow: publish-publisher.yaml
           name: publisher         
       
+      # Add this step for each APIM environment and pass specific set of secrets that you want replaced in the env section below
       - name: 'Perform namevalue secret substitution in configuration.${{ inputs.API_MANAGEMENT_ENVIRONMENT}}.yaml'
+        if: (inputs.API_MANAGEMENT_ENVIRONMENT == 'prod' )   
         uses: cschleiden/replace-tokens@v1.1
         with:
           tokenPrefix: '{#'
           tokenSuffix: '#}'
           files: ${{ format('["**/configuration.{0}.yaml"]', inputs.API_MANAGEMENT_ENVIRONMENT) }}
         # specify environment specific secrets to be replaced
-        if: (inputs.API_MANAGEMENT_ENVIRONMENT == 'prod' )   
+        env: 
+          testSecretValue: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+
+      # Add this step for each APIM environment and pass specific set of secrets that you want replaced in the env section below
+      - name: 'Perform namevalue secret substitution in configuration.${{ inputs.API_MANAGEMENT_ENVIRONMENT}}.yaml'
+        if: (inputs.API_MANAGEMENT_ENVIRONMENT == 'dev' )   
+        uses: cschleiden/replace-tokens@v1.1
+        with:
+          tokenPrefix: '{#'
+          tokenSuffix: '#}'
+          files: ${{ format('["**/configuration.{0}.yaml"]', inputs.API_MANAGEMENT_ENVIRONMENT) }}
+        # specify environment specific secrets to be replaced
         env: 
           testSecretValue: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
 
