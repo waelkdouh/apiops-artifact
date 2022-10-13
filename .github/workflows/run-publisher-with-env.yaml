@@ -62,9 +62,9 @@ jobs:
           tokenSuffix: '#}'
           files: ${{ format('["**/configuration.{0}.yaml"]', inputs.API_MANAGEMENT_ENVIRONMENT) }}
         # specify environment specific secrets to be replaced
-        if: (inputs.API_MANAGEMENT_ENVIRONMENT == 'Prod' )   
-        env: 
-          testSecretValue: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+       # if: (inputs.API_MANAGEMENT_ENVIRONMENT == 'Prod' )   
+        #env: 
+        #  testSecretValue: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
 
       - name: Run publisher without Config Yaml but with Commit ID
         if: ( inputs.CONFIGURATION_YAML_PATH == '' &&  inputs.COMMIT_ID != '')
