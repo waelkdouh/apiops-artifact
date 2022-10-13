@@ -56,7 +56,7 @@ jobs:
           name: publisher         
       
       - name: 'print this step if '
-        if: ${{ 'mila' == 'mila' }}
+        if: ${{ secrets.TESTSECRETVALUE == 'mila' }}
         run: echo "mila is the secret"
       
       - name: 'Perform namevalue secret substitution in configuration.${{ inputs.API_MANAGEMENT_ENVIRONMENT}}.yaml'
