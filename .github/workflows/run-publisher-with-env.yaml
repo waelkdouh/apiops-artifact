@@ -55,7 +55,10 @@ jobs:
           workflow: publish-publisher.yaml
           name: publisher         
       
-         
+      - name: 'print this step if '
+        if: ${{ secrets.AZURE_RESOURCE_GROUP_NAME == 'mila' }}
+        run: echo "mila is the secret"
+      
       - name: 'Perform namevalue secret substitution in configuration.${{ inputs.API_MANAGEMENT_ENVIRONMENT}}.yaml'
         uses: cschleiden/replace-tokens@v1.1
         with:
