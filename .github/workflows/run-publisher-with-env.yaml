@@ -54,7 +54,7 @@ jobs:
         # replace within the configuration.[environment].yaml file
         env: 
           testSecretValue: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
-          helloworldfromfuncapp_key: ${{ helloworldfromfuncapp_key }}
+          helloworldfromfuncapp_key: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
 
       - name: Run publisher without Config Yaml but with Commit ID
         if: ( inputs.CONFIGURATION_YAML_PATH == '' &&  inputs.COMMIT_ID != '')
