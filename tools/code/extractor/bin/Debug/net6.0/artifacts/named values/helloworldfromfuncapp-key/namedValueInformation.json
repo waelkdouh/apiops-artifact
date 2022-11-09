@@ -1,0 +1,12 @@
+{
+  "name": "helloworldfromfuncapp-key",
+  "properties": {
+    "displayName": "helloworldfromfuncapp-key",
+    "secret": true,
+    "tags": [
+      "key",
+      "function",
+      "auto"
+    ]
+  }
+}

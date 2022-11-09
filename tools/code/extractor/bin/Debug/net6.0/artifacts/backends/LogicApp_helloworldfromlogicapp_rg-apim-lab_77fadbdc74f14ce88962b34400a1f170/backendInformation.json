@@ -1,0 +1,9 @@
+{
+  "name": "LogicApp_helloworldfromlogicapp_rg-apim-lab_77fadbdc74f14ce88962b34400a1f170",
+  "properties": {
+    "description": "helloworldfromlogicapp",
+    "protocol": "http",
+    "resourceId": "https://management.azure.com/subscriptions/77fadbdc-74f1-4ce8-8962-b34400a1f170/resourceGroups/rg-apim-lab/providers/Microsoft.Logic/workflows/helloworldfromlogicapp",
+    "url": "https://prod-15.centralus.logic.azure.com/workflows/fd2f52f2c1e74e2c86a5124b504ccf52/triggers"
+  }
+}
