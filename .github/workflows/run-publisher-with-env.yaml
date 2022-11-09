@@ -55,6 +55,7 @@ jobs:
         env: 
           testSecretValue: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
           helloworldfromfuncappkey: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+          helloworldfromlogicapp: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
 
       - name: Run publisher without Config Yaml but with Commit ID
         if: ( inputs.CONFIGURATION_YAML_PATH == '' &&  inputs.COMMIT_ID != '')
