@@ -1,32 +1,55 @@
 apimServiceName: apim-prod-wk-05102022
 namedValues:
   - name: environment
-    displayName: environment
-    value: "https://www.search.com"
+    properties:
+      displayName: environment
+      value: "https://www.search2.com"
   - name: mysecretvalue
-    displayName: mysecretvalue
-    keyVault:
-      identityClientId: f5cf4186-20c1-4e5b-abbf-abd174bee744
-      secretIdentifier: https://secretvaultwk.vault.azure.net/secrets/mysecretvalueprod
+    properties:
+      displayName: mysecretvalue
+      keyVault:
+        identityClientId: f5cf4186-20c1-4e5b-abbf-abd174bee744
+        secretIdentifier: https://secretvaultwk.vault.azure.net/secrets/mysecretvalueprod
   - name: testSecret
-    displayName: testSecret
-    value: "{#testSecretValue#}"
+    properties:
+      displayName: testSecret
+      value: "{#testSecretValue#}"
+  - name: helloworldfromfuncapp-key
+    properties:
+      displayName: helloworldfromfuncapp-key
+      value: "{#helloworldfromfuncappkey#}"
+  - name: 634e022983908257b35630b0
+    properties:
+      displayName: helloworldfromlogicapp_manual-invoke_634e022983908257b35630b0
+      value: "{#helloworldfromlogicapp#}"  
 loggers:
     - name: apim-lab-insights
-      loggerType: applicationInsights
-      description: prod application insights
-      resourceId: "/subscriptions/77fadbdc-74f1-4ce8-8962-b34400a1f170/resourceGroups/
+      properties:
+        loggerType: applicationInsights
+        description: prod application insights
+        resourceId: "/subscriptions/77fadbdc-74f1-4ce8-8962-b34400a1f170/resourceGroups/
                    rg-apim-lab-prod/providers/microsoft.insights/components/apim-lab-prod-insights"
-      credentials:
-        instrumentationKey: "{{Logger-Credentials--62825ade46346113589affc1}}"
+        credentials:
+          instrumentationKey: "{{Logger-Credentials--62825ade46346113589affc1}}"
         isBuffered: true
 diagnostics:
    - name: applicationinsights
-     verbosity: Error
-     loggerId: "/subscriptions/77fadbdc-74f1-4ce8-8962-b34400a1f170/resourceGroups/rg-apim-lab-prod/providers/Microsoft.ApiManagement/service/apim-prod-wk-05102022/loggers/apim-lab-prod-insights" 
+     properties:
+       verbosity: Error
+       loggerId: "/subscriptions/77fadbdc-74f1-4ce8-8962-b34400a1f170/resourceGroups/rg-apim-lab-prod/providers/Microsoft.ApiManagement/service/apim-prod-wk-05102022/loggers/apim-lab-prod-insights" 
+backends:
+  - name: helloworldfromfuncapp
+    properties:
+      url: "https://helloworldfromprodfuncapp.azurewebsites.net/api"
+      resourceid: "https://management.azure.com/subscriptions/77fadbdc-74f1-4ce8-8962-b34400a1f170/resourceGroups/rg-apim-lab-prod/providers/Microsoft.Web/sites/helloworldfromprodfuncapp"
+  - name: LogicApp_helloworldfromlogicapp_rg-apim-lab_77fadbdc74f14ce88962b34400a1f170
+    properties:
+      url: "https://prod-75.eastus.logic.azure.com/workflows/44c457798bad4b2898a6ccfa73eff54c/triggers"
+      resourceid: "https://management.azure.com/subscriptions/77fadbdc-74f1-4ce8-8962-b34400a1f170/resourceGroups/rg-apim-lab-prod/providers/Microsoft.Logic/workflows/helloworldfromprodlogicapp"
 apis:
   - name: demo-conference-api
     diagnostics:
       - name: applicationinsights
-        verbosity: Error
-        loggerId: "/subscriptions/77fadbdc-74f1-4ce8-8962-b34400a1f170/resourceGroups/rg-apim-lab-prod/providers/Microsoft.ApiManagement/service/apim-prod-wk-05102022/loggers/apim-lab-prod-insights"
+        properties:
+          verbosity: Error
+          loggerId: "/subscriptions/77fadbdc-74f1-4ce8-8962-b34400a1f170/resourceGroups/rg-apim-lab-prod/providers/Microsoft.ApiManagement/service/apim-prod-wk-05102022/loggers/apim-lab-prod-insights"
