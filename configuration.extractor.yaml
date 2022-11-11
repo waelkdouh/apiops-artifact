@@ -1,3 +1,2 @@
- ApiDisplayNames:
-  - testapi
-  - Demo Conference API
+ apiNames:
+  - demo-conference-api
