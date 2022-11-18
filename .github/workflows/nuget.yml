@@ -34,7 +34,7 @@ jobs:
           dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
       
       - name: 'Pack project'
-        run: dotnet pack tools/code/extractor/extractor/extractor --no-restore --no-build --configuration Release --include-symbols --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
+        run: dotnet pack tools/code/extractor/extractor --no-restore --no-build --configuration Release --include-symbols --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
       
       - name: publish artifact
         uses: actions/upload-artifact@v2
