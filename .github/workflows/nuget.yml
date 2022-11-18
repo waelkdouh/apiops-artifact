@@ -30,7 +30,7 @@ jobs:
           include-prerelease: true
 
       - name: 'Restore packages'
-        run: dotnet restore ${{ env.PROJECT_PATH }}
+        run: dotnet restore ${{ env.PROJECT_PATH }} --runtime linux-x64
 
       - name: 'Build project'
         run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release --self-contained --runtime linux-x64
