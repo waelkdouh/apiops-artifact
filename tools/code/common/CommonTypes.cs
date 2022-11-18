@@ -1,4 +1,4 @@
-﻿using Flurl;
+using Flurl;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -120,6 +120,12 @@ public static class ArtifactFileExtensions
         await File.WriteAllTextAsync(file.Path.ToString(), text, cancellationToken);
     }
 
+    public static async ValueTask OverwriteWithBytes(this IArtifactFile file, byte[] bytes, CancellationToken cancellationToken)
+    {
+        file.CreateDirectoryIfNotExists();
+        await File.WriteAllBytesAsync(file.Path.ToString(), bytes, cancellationToken);
+    }
+
     public static async ValueTask OverwriteWithStream(this IArtifactFile file, Stream stream, CancellationToken cancellationToken)
     {
         file.CreateDirectoryIfNotExists();
@@ -149,6 +155,11 @@ public static class ArtifactDirectoryExtensions
     public static string GetName(this IArtifactDirectory directory)
     {
         return directory.GetDirectoryInfo().Name;
+    }
+
+    public static bool DirectoryExists(this IArtifactDirectory directory)
+    {
+        return directory.GetDirectoryInfo().Exists;
     }
 
     public static IEnumerable<FileInfo> EnumerateFilesRecursively(this IArtifactDirectory directory)
