@@ -8,6 +8,7 @@ on:
   workflow_dispatch:
 
 env:
+  PROJECT_PATH: 'tools/code/extractor/extractor.csproj'
   PACKAGE_OUTPUT_DIRECTORY: ${{ github.workspace }}\output
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -28,15 +29,21 @@ jobs:
           dotnet-version: 7.x
           include-prerelease: true
 
-      - name: build binary
-        run: |
-          cd tools/code/extractor/
-          dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
+      - name: 'Restore packages'
+        run: dotnet restore ${{ env.PROJECT_PATH }}
+
+      - name: 'Build project'
+        run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release --self-contained --runtime linux-x64 -p:PublishSingleFile=true
+      
+      #- name: build binary
+      #  run: |
+      #    cd tools/code/extractor/
+      #    dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
       
       - name: 'Pack project'
         run: | 
           cd tools/code/extractor/
-          dotnet pack ./extractor.csproj --no-restore --no-build --configuration Release --include-symbols --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
+          dotnet pack ${{ env.PROJECT_PATH }} --no-restore --no-build --configuration Release --include-symbols --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
       
       - name: publish artifact
         uses: actions/upload-artifact@v2
