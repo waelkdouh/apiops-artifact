@@ -30,7 +30,7 @@ jobs:
 
       - name: Publish Release Binaries
         run: |
-          ls ${{github.workspace}}
+          ls /home/runner
           mkdir ${{github.workspace}}\aha
        #   cd tools/code/extractor/
        #  dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
