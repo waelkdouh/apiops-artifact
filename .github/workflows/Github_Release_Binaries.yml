@@ -41,7 +41,11 @@ jobs:
           git add ./release_binaries
           git commit -m "Pushed the latest binaries to the release_binaries folder"
 
-      
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
           
            
 
