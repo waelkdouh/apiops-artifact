@@ -40,7 +40,7 @@ jobs:
           cd ~
           echo 'right before building publisher'
           pwd
-          cd home/runner/work/tools/code/publisher/
+          cd tools/code/publisher/
           dotnet publish ./publisher.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o publisher
           cd publisher
           cp publisher ${{github.workspace}}/release_binaries
