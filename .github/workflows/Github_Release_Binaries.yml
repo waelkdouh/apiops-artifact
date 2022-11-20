@@ -32,7 +32,11 @@ jobs:
         run: |
           
           #delete both binaries before regenerating them otherwise git won't detect a change
+          echo 'before deleting'
+          ls
           rm ${{github.workspace}}/release_binaries/*
+          echo 'after deleting'
+          ls
           
           #generate the extractor binary
           cd tools/code/extractor/
