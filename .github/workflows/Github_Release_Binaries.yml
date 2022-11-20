@@ -30,8 +30,8 @@ jobs:
 
       - name: Publish Release Binaries
         run: |
-          echo 'this is the content of the work/apiopslab directory'
-          ls /home/runner/work/apiopslab
+          echo 'this is the content of the work/apiopslab/apiopslab directory'
+          ls /home/runner/work/apiopslab/apiopslab
           echo 'this is the content of the work/_temp'
           ls /home/runner/work/_temp
           echo 'this is the content of the work/_actions'
