@@ -30,18 +30,11 @@ jobs:
 
       - name: Publish Release Binaries
         run: |
-          echo 'print content default directory'
-          pwd
-          ls
           cd tools/code/extractor/
-          dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o wael
-          echo 'print content of the current directory'
-          pwd
-          ls
-          cd wael
-          echo 'print content of wael'
-          pwd
-          ls
+          dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
+          cd extractor
+          cp extractor/* ${{github.workspace}}\release_binaries
+          
           
            
        #   #cd /home/runner/work/extractor
