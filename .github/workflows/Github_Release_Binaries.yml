@@ -30,8 +30,15 @@ jobs:
 
       - name: Publish Release Binaries
         run: |
-          ls /home/runner/work
-          mkdir ${{github.workspace}}\aha
+          echo 'this is the content of the work/apiopslab directory'
+          ls /home/runner/work/apiopslab
+          echo 'this is the content of the work/_temp'
+          ls /home/runner/work/_temp
+          echo 'this is the content of the work/_actions'
+          ls /home/runner/work/_actions
+          echo 'this is the content of the work/_PipelineMapping directory'
+          ls /home/runner/work/_PipelineMapping
+          
        #   cd tools/code/extractor/
        #  dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
        #   #cd /home/runner/work/extractor
