@@ -5,10 +5,6 @@ name: Generate_Github_Release_Binaries
 # Controls when the workflow will run
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - 'main'
-      
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
