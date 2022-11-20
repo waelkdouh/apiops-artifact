@@ -30,11 +30,15 @@ jobs:
          
       - name: Publish Release Binaries
         run: |
+          echo 'right before building extractor'
+          pwd
           cd tools/code/extractor/
           dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
           cd extractor
           cp extractor ${{github.workspace}}/release_binaries
           
+          echo 'right before building publisher'
+          pwd
           cd tools/code/publisher/
           dotnet publish ./publisher.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o publisher
           cd publisher
