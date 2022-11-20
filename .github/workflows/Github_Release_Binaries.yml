@@ -37,9 +37,10 @@ jobs:
           cd extractor
           cp extractor ${{github.workspace}}/release_binaries
           
+          cd ~
           echo 'right before building publisher'
           pwd
-          cd tools/code/publisher/
+          cd home/runner/work/tools/code/publisher/
           dotnet publish ./publisher.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o publisher
           cd publisher
           cp publisher ${{github.workspace}}/release_binaries
