@@ -30,13 +30,14 @@ jobs:
          
       - name: Publish Release Binaries
         run: |
-          
           #delete both binaries before regenerating them otherwise git won't detect a change
-          echo 'before deleting'
-          ls ${{github.workspace}}/release_binaries
           rm ${{github.workspace}}/release_binaries/*
-          echo 'after deleting'
-          ls ${{github.workspace}}/release_binaries
+          
+          #Commit a change for the deleted binaries
+          git config --local user.name "APIOPS"
+          git add ./release_binaries
+          git commit -m "Deleted the binaries from the release_binaries folder"     
+     
           
           #generate the extractor binary
           cd tools/code/extractor/
