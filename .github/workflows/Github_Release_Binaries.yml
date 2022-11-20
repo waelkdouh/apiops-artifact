@@ -32,4 +32,4 @@ jobs:
           cd tools/code/extractor/
           dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
           #cp tools/code/extractor/extractor/* ${{github.workspace}}\release_binaries
-          cp  ${{github.workspace}}\configuration.prod.yaml ${{github.workspace}}\release_binaries
+          cp  ${{github.workspace}}/configuration.prod.yaml ${{github.workspace}}\release_binaries
