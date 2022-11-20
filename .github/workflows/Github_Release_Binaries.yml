@@ -30,17 +30,15 @@ jobs:
 
       - name: Publish Release Binaries
         run: |
-          echo 'this is the content of the work/apiopslab/apiopslab directory'
-          ls /home/runner/work/apiopslab/apiopslab
-          echo 'this is the content of the work/_temp'
-          ls /home/runner/work/_temp
-          echo 'this is the content of the work/_actions'
-          ls /home/runner/work/_actions
-          echo 'this is the content of the work/_PipelineMapping directory'
-          ls /home/runner/work/_PipelineMapping
+          #echo 'this is the content of the work/apiopslab/apiopslab directory'
+          #ls /home/runner/work/apiopslab/apiopslab
+          cd tools/code/extractor/
+          dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
+          echo 'print content of the current directory'
+          pwd
+          ls
           
-       #   cd tools/code/extractor/
-       #  dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
+           
        #   #cd /home/runner/work/extractor
        #   echo 'print the contents of /home/runner'
        #   ls
