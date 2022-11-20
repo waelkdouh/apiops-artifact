@@ -32,9 +32,3 @@ jobs:
           cd tools/code/extractor/
           dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
           cp tools/code/extractor/extractor/extractor ${{github.workspace}}\release_binaries
-
-      - name: publish artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: extractor
-          path: tools/code/extractor/extractor/extractor
