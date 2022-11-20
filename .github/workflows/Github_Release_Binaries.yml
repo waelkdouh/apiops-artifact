@@ -33,17 +33,15 @@ jobs:
           echo 'print content default directory'
           pwd
           ls
-          #echo 'this is the content of the work/apiopslab/apiopslab directory'
-          #ls /home/runner/work/apiopslab/apiopslab
           cd tools/code/extractor/
           dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o wael
           echo 'print content of the current directory'
           pwd
           ls
-          #cd tools/code/extractor/wael
-          #echo 'print content of wael'
-          #pwd
-          #ls
+          cd wael
+          echo 'print content of wael'
+          pwd
+          ls
           
            
        #   #cd /home/runner/work/extractor
