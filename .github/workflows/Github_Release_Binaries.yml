@@ -35,7 +35,7 @@ jobs:
           cd extractor
           ls
           ls ${{github.workspace}}/release_binaries
-          cp * ${{github.workspace}}/release_binaries
+          cp * ${GITHUB_REPOSITORY}/release_binaries
           
           
            
