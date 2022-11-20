@@ -37,7 +37,7 @@ jobs:
           cd extractor
           cp extractor ${{github.workspace}}/release_binaries
           
-          cd ~
+          cd ${{github.workspace}}
           echo 'right before building publisher'
           pwd
           cd tools/code/publisher/
