@@ -34,6 +34,12 @@ jobs:
           cd extractor
           cp extractor ${{github.workspace}}/release_binaries
           ls ${{github.workspace}}/release_binaries
+      
+      - name: Commit newly created binaries back into the repository
+        run: |
+          git config --local user.name "APIOPS"
+          pwd
+          ls
           
           
            
