@@ -30,7 +30,7 @@ jobs:
           dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
           cd extractor
           #cp * ${GITHUB_REPOSITORY}/release_binaries
-          ls ${{github.workspace}}
+          ls ${{github.workspace}}/release_binaries
           
            
 
