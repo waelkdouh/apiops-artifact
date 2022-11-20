@@ -32,7 +32,7 @@ jobs:
         run: |
           cd tools/code/extractor/
           dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
-          cd /home/runner/work/extractor
+          #cd /home/runner/work/extractor
           echo 'print the contents of /home/runner'
           ls
           cd /home/runner/work
