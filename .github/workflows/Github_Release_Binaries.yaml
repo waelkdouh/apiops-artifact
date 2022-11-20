@@ -73,11 +73,12 @@ jobs:
           
       - name: Release
         uses: softprops/action-gh-release@v1
-        #if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            configuration.extractor.yaml
-          name:  APIOps Toolkit for Azure APIM ${{github.event.inputs.COMMIT_ID_CHOICE}}
-          tag_name: ${{github.event.inputs.COMMIT_ID_CHOICE}}
+            release_binaries/extractor
+            release_binaries/publisher
+          name: APIOps Toolkit for Azure APIM ${{ github.event.inputs.COMMIT_ID_CHOICE }}
+          tag_name: ${{ github.event.inputs.COMMIT_ID_CHOICE }}
+          generate_release_notes: true
           
           
