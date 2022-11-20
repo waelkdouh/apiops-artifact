@@ -33,10 +33,10 @@ jobs:
           
           #delete both binaries before regenerating them otherwise git won't detect a change
           echo 'before deleting'
-          ls
+          ls ${{github.workspace}}/release_binaries
           rm ${{github.workspace}}/release_binaries/*
           echo 'after deleting'
-          ls
+          ls ${{github.workspace}}/release_binaries
           
           #generate the extractor binary
           cd tools/code/extractor/
