@@ -22,21 +22,22 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 7.x
-          include-prerelease: true
+      #- name: Setup .NET
+      #  uses: actions/setup-dotnet@v1
+      #  with:
+      #    dotnet-version: 7.x
+      #    include-prerelease: true
 
       - name: Publish Release Binaries
         run: |
-          cd tools/code/extractor/
-          dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
-          #cd /home/runner/work/extractor
-          echo 'print the contents of /home/runner'
-          ls
-          cd /home/runner/work
-          echo 'print the contents of /home/runner/work
-          ls
+          ls ${{github.workspace}}
+       #   cd tools/code/extractor/
+       #  dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
+       #   #cd /home/runner/work/extractor
+       #   echo 'print the contents of /home/runner'
+       #   ls
+       #   cd /home/runner/work
+       #   echo 'print the contents of /home/runner/work
+       #   ls
           #cp tools/code/extractor/extractor/* ${{github.workspace}}\release_binaries
           #cp  ${{github.workspace}}/configuration.prod.yaml ${{github.workspace}}/release_binaries
