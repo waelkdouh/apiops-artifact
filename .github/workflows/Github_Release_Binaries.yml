@@ -27,9 +27,13 @@ jobs:
           dotnet-version: 7.x
           include-prerelease: true
 
-      - name: build binary
+      - name: Publish Release Binaries
         run: |
           cd tools/code/extractor/
-          dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
+          echo 'list all files'
+          ls
+          echo 'list binaries directory'
+          ls ${{github.workspace}}/release_binaries
+          #dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
           #cp tools/code/extractor/extractor/* ${{github.workspace}}\release_binaries
           cp  ${{github.workspace}}/configuration.prod.yaml ${{github.workspace}}/release_binaries
