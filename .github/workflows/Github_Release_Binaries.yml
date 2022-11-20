@@ -31,10 +31,10 @@ jobs:
         run: |
           cd tools/code/extractor/
           dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
-          cp tools/code/extractor/extractor ${{github.workspace}}/release_binaries
+          cp /tools/code/extractor/extractor ${{github.workspace}}/release_binaries
           cd tools/code/publisher/
           dotnet publish ./publisher.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o publisher    
-          cp tools/code/publisher/publisher ${{github.workspace}}/release_binaries
+          cp /tools/code/publisher/publisher ${{github.workspace}}/release_binaries
           
       - name: Commit newly created binaries back into the repository
         run: |
