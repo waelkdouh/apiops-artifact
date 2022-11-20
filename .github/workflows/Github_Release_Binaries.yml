@@ -22,12 +22,19 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 7.x
+          include-prerelease: true
 
       - name: Publish Release Binaries
         run: |
-          ls ${GITHUB_REPOSITORY}
+          cd tools/code/extractor/
+          dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
+          cd extractor
+          cp * ${GITHUB_REPOSITORY}/release_binaries
+          ls ${{github.workspace}}/release_binaries    
           
-          
-          
+           
 
-        
