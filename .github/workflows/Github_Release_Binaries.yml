@@ -33,7 +33,10 @@ jobs:
           cd tools/code/extractor/
           dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
           cd /home/runner/work/extractor
-          echo 'print the contents of the newly published artifacts'
+          echo 'print the contents of /home/runner'
+          ls
+          cd /home/runner/work
+          echo 'print the contents of /home/runner/work
           ls
           #cp tools/code/extractor/extractor/* ${{github.workspace}}\release_binaries
           #cp  ${{github.workspace}}/configuration.prod.yaml ${{github.workspace}}/release_binaries
