@@ -38,9 +38,10 @@ jobs:
       - name: Commit newly created binaries back into the repository
         run: |
           git config --local user.name "APIOPS"
-          pwd
-          ls
-          
+          git add ./release_binaries
+          git commit -m "Pushed the latest binaries to the release_binaries folder"
+
+      
           
            
 
