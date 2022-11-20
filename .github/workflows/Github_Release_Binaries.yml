@@ -4,6 +4,7 @@ name: Generate_Github_Release_Binaries
 
 # Controls when the workflow will run
 on:
+  workflow_dispatch:
   push:
     branches:
       - 'main'
