@@ -22,19 +22,23 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      #- name: Setup .NET
-      #  uses: actions/setup-dotnet@v1
-      #  with:
-      #    dotnet-version: 7.x
-      #    include-prerelease: true
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 7.x
+          include-prerelease: true
 
       - name: Publish Release Binaries
         run: |
           #echo 'this is the content of the work/apiopslab/apiopslab directory'
           #ls /home/runner/work/apiopslab/apiopslab
           cd tools/code/extractor/
-          dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
+          dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o wael
           echo 'print content of the current directory'
+          pwd
+          ls
+          cd tools/code/extractor/wael
+          echo 'print content of wael'
           pwd
           ls
           
