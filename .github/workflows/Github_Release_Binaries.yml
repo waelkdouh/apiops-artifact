@@ -30,32 +30,35 @@ jobs:
          
       - name: Publish Release Binaries
         run: |
-          echo 'right before building extractor'
-          pwd
+          
+          #delete both binaries before regenerating them otherwise git won't detect a change
+          rm ${{github.workspace}}/release_binaries/*
+          
+          #generate the extractor binary
           cd tools/code/extractor/
           dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
           cd extractor
           cp extractor ${{github.workspace}}/release_binaries
           
+          #go back to the root of the workspacec
           cd ${{github.workspace}}
-          echo 'right before building publisher'
-          pwd
+
+          #generate the publisher binary
           cd tools/code/publisher/
           dotnet publish ./publisher.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o publisher
           cd publisher
           cp publisher ${{github.workspace}}/release_binaries
          
-      - name: Commit newly created binaries back into the repository
+      - name: Commit newly created binaries
         run: |
           git config --local user.name "APIOPS"
           git add ./release_binaries
           git commit -m "Pushed the latest binaries to the release_binaries folder"
 
-      - name: Push changes
+      - name: Push changes back the repository
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}   
-          force: true
+          branch: ${{ github.ref }}
 
 
