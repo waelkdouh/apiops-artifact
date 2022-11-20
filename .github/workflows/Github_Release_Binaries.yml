@@ -31,22 +31,10 @@ jobs:
         run: |
           cd tools/code/extractor/
           dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
+          ls tools/code/extractor/extractor
           cp /home/runner/work/apiopslab/apiopslab/tools/code/extractor/extractor ${{github.workspace}}/release_binaries
-          cd tools/code/publisher/
-          dotnet publish ./publisher.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o publisher    
-          cp /home/runner/work/apiopslab/apiopslab/tools/code/extractor ${{github.workspace}}/release_binaries
+         
+         
           
-      - name: Commit newly created binaries back into the repository
-        run: |
-          git config --local user.name "APIOPS"
-          git add ./release_binaries
-          git commit -m "Pushed the latest binaries to the release_binaries folder"
 
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
-          
-           
 
