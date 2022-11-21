@@ -30,7 +30,7 @@ jobs:
           include-prerelease: true
        
          
-      - name: Publish Release Binaries
+      - name: Create a New Github Release
         run: |
           #delete both binaries and the versioning text file before regenerating them otherwise git won't detect a change
           rm ${{github.workspace}}/tools/binaries/*
