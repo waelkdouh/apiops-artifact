@@ -30,22 +30,14 @@ jobs:
           include-prerelease: true
        
          
-      - name: Create a New Github Release
+      - name: Generate artifacts
         run: |
           #delete both binaries and the versioning text file before regenerating them otherwise git won't detect a change
-          rm ${{github.workspace}}/tools/binaries/*
+          #rm ${{github.workspace}}/tools/binaries/*
         
-          #Commit a change for the deleted binaries
-          git config --local user.name "APIOPS"
-          git add ./tools/binaries
-          git commit -m "Deleted the binaries from the tools/binaries folder"     
-     
-          
           #generate the extractor binary
           cd tools/code/extractor/
           dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
-          cd extractor
-          cp extractor ${{github.workspace}}/tools/binaries
           
           #go back to the root of the workspace
           cd ${{github.workspace}}
@@ -54,23 +46,10 @@ jobs:
           cd tools/code/publisher/
           dotnet publish ./publisher.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o publisher
           cd publisher
-          cp publisher ${{github.workspace}}/tools/binaries
           
           #generate version text file
-          cat > ${{github.workspace}}/tools/binaries/ReleaseVersion.txt
-          echo ${{ github.event.inputs.Release_Version }} > ${{github.workspace}}/tools/binaries/ReleaseVersion.txt
-         
-      - name: Commit newly created binaries and version file
-        run: |
-          git config --local user.name "APIOPS"
-          git add ./tools/binaries
-          git commit -m "Pushed the latest binaries to the /tools/binaries folder"
-
-      - name: Push changes back the repository
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+          cat > ${{github.workspace}}/ReleaseVersion.txt
+          echo ${{ github.event.inputs.Release_Version }} > ${{github.workspace}}/ReleaseVersion.txt
           
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -78,7 +57,7 @@ jobs:
           files: |
             tools/binaries/extractor
             tools/binaries/publisher
-            tools/binaries/ReleaseVersion.txt
+            tools/ReleaseVersion.txt
           name: APIOps Toolkit for Azure APIM ${{ github.event.inputs.Release_Version }}
           tag_name: ${{ github.event.inputs.Release_Version }}
           generate_release_notes: true
