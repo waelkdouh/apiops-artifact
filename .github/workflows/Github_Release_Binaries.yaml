@@ -78,7 +78,7 @@ jobs:
           files: |
             release_binaries/extractor
             release_binaries/publisher
-            release_binaries/publisher
+            release_binaries/ReleaseVersion.txt
           name: APIOps Toolkit for Azure APIM ${{ github.event.inputs.Release_Version }}
           tag_name: ${{ github.event.inputs.Release_Version }}
           generate_release_notes: true
