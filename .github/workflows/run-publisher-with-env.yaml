@@ -1,5 +1,5 @@
 
-name: run-publisher-with-env
+name: Run Publisher with Environment
 
 on:
   workflow_call:
