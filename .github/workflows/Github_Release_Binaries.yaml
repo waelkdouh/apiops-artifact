@@ -32,9 +32,9 @@ jobs:
          
       - name: Publish Release Binaries
         run: |
-          #delete both binaries before regenerating them otherwise git won't detect a change
+          #delete both binaries and the versioning text file before regenerating them otherwise git won't detect a change
           rm ${{github.workspace}}/release_binaries/*
-          
+        
           #Commit a change for the deleted binaries
           git config --local user.name "APIOPS"
           git add ./release_binaries
@@ -47,7 +47,7 @@ jobs:
           cd extractor
           cp extractor ${{github.workspace}}/release_binaries
           
-          #go back to the root of the workspacec
+          #go back to the root of the workspace
           cd ${{github.workspace}}
 
           #generate the publisher binary
@@ -55,8 +55,12 @@ jobs:
           dotnet publish ./publisher.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o publisher
           cd publisher
           cp publisher ${{github.workspace}}/release_binaries
+          
+          #generate version text file
+          cat > ${{github.workspace}}/release_binaries/ReleaseVersion.txt
+          echo ${{ github.event.inputs.Release_Version }} > ${{github.workspace}}/release_binaries/ReleaseVersion.txt
          
-      - name: Commit newly created binaries
+      - name: Commit newly created binaries and version file
         run: |
           git config --local user.name "APIOPS"
           git add ./release_binaries
@@ -73,6 +77,7 @@ jobs:
         with:
           files: |
             release_binaries/extractor
+            release_binaries/publisher
             release_binaries/publisher
           name: APIOps Toolkit for Azure APIM ${{ github.event.inputs.Release_Version }}
           tag_name: ${{ github.event.inputs.Release_Version }}
