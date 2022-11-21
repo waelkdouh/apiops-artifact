@@ -55,8 +55,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ${{github.workspace}}/tools/binaries/extractor/extractor
-            ${{github.workspace}}/tools/binaries/publisher/publisher
+            ${{github.workspace}}/tools/code/extractor/extractor
+            ${{github.workspace}}/tools/code/publisher/publisher
             ${{github.workspace}}/ReleaseVersion.txt
           name: APIOps Toolkit for Azure APIM ${{ github.event.inputs.Release_Version }}
           tag_name: ${{ github.event.inputs.Release_Version }}
