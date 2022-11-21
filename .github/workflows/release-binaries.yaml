@@ -37,8 +37,8 @@ jobs:
         
           #Commit a change for the deleted binaries
           git config --local user.name "APIOPS"
-          git add ./release_binaries
-          git commit -m "Deleted the binaries from the release_binaries folder"     
+          git add ./tools/binaries
+          git commit -m "Deleted the binaries from the tools/binaries folder"     
      
           
           #generate the extractor binary
