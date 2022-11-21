@@ -69,8 +69,8 @@ jobs:
           API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ GITHUB.WORKSPACE }}/${{ inputs.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}
           COMMIT_ID: ${{ inputs.COMMIT_ID }}
         run: |
-          chmod +x ./publisher
-          ./publisher        
+          chmod +x ./tools/binaries/publisher
+          ./tools/binaries/publisher        
           
       - name: Run publisher without Config Yaml or Commit ID
         if: ( inputs.CONFIGURATION_YAML_PATH == '' &&  inputs.COMMIT_ID == '')

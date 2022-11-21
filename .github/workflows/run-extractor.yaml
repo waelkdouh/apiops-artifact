@@ -27,13 +27,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
           
-      - name: Download artifact
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: publish-extractor.yaml
-          name: extractor
-          
       - name: Run extractor without Config Yaml
         if: ${{ github.event.inputs.CONFIGURATION_YAML_PATH == 'Extract All APIs' }}
         env:
@@ -46,8 +39,8 @@ jobs:
           API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ GITHUB.WORKSPACE }}/apimartifacts  # change this to the artifacts folder
           API_SPECIFICATION_FORMAT: ${{ github.event.inputs.API_SPECIFICATION_FORMAT }} 
         run: |
-          chmod +x ./extractor
-          ./extractor
+          chmod +x ./tools/binaries/extractor
+          ./tools/binaries/extractor
       
       - name: Run extractor with Config Yaml
         if: ${{ github.event.inputs.CONFIGURATION_YAML_PATH != 'Extract All APIs' }}
