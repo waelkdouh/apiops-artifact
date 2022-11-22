@@ -61,8 +61,9 @@ jobs:
           API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ GITHUB.WORKSPACE }}/${{ inputs.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}
           COMMIT_ID: ${{ inputs.COMMIT_ID }}
         run: |
-          chmod +x ./tools/binaries/publisher
-          ./tools/binaries/publisher        
+          wget https://github.com/waelkdouh/apiopslab/releases/download/v.9.0.1/publisher
+          chmod +x ./publisher
+          ./publisher        
           
       - name: Run publisher without Config Yaml or Commit ID
         if: ( inputs.CONFIGURATION_YAML_PATH == '' &&  inputs.COMMIT_ID == '')
@@ -75,8 +76,9 @@ jobs:
           API_MANAGEMENT_SERVICE_NAME: ${{ secrets.API_MANAGEMENT_SERVICE_NAME }}
           API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ GITHUB.WORKSPACE }}/${{ inputs.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}
         run: |
-          chmod +x ./tools/binaries/publisher
-          ./tools/binaries/publisher        
+          wget https://github.com/waelkdouh/apiopslab/releases/download/v.9.0.1/publisher
+          chmod +x ./publisher
+          ./publisher  
       
       - name: Run publisher with Config Yaml and Commit id
         if: ( inputs.CONFIGURATION_YAML_PATH != '' &&  inputs.COMMIT_ID != '')
@@ -91,8 +93,9 @@ jobs:
           CONFIGURATION_YAML_PATH:  ${{ GITHUB.WORKSPACE }}/${{ inputs.CONFIGURATION_YAML_PATH }}
           COMMIT_ID: ${{ inputs.COMMIT_ID }}
         run: |
-          chmod +x ./tools/binaries/publisher
-          ./tools/binaries/publisher             
+          wget https://github.com/waelkdouh/apiopslab/releases/download/v.9.0.1/publisher
+          chmod +x ./publisher
+          ./publisher
      
           
       - name: Run publisher with Config Yaml but without Commit id
@@ -107,5 +110,6 @@ jobs:
           API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ GITHUB.WORKSPACE }}/${{ inputs.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}
           CONFIGURATION_YAML_PATH:  ${{ GITHUB.WORKSPACE }}/${{ inputs.CONFIGURATION_YAML_PATH }}
         run: |
-          chmod +x ./tools/binaries/publisher
-          ./tools/binaries/publisher             
+          wget https://github.com/waelkdouh/apiopslab/releases/download/v.9.0.1/publisher
+          chmod +x ./publisher
+          ./publisher             
