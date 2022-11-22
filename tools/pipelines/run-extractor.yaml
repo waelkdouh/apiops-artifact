@@ -74,8 +74,9 @@ stages:
               scriptType: bash
               scriptLocation: inlineScript
               inlineScript: |
-                chmod u+x $(Pipeline.Workspace)/extractor/extractor
-                $(Pipeline.Workspace)/extractor/extractor
+               wget https://github.com/waelkdouh/apiopslab/releases/download/github_release_version/extractor
+               chmod +x ./extractor
+               ./extractor
                 result=$?
                 echo "Exit code is $result"
                 exit $result

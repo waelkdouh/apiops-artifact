@@ -84,8 +84,9 @@ steps:
     scriptType: bash
     scriptLocation: inlineScript
     inlineScript: |
-      chmod u+x $(Pipeline.Workspace)/publisher/publisher
-      $(Pipeline.Workspace)/publisher/publisher
+      wget https://github.com/waelkdouh/apiopslab/releases/download/github_release_version/publisher
+      chmod +x ./publisher
+      ./publisher
       result=$?
       echo "Exit code is $result"
       exit $result

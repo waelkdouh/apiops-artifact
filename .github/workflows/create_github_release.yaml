@@ -48,8 +48,12 @@ jobs:
           #go back to the root of the workspace
           cd ${{github.workspace}}
           cd .github/workflows/
+          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-extractor-workflow.yaml 
+          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-publisher-with-env-workflow.yaml
+          cd ${{github.workspace}}
+          cd tools/pipelines/
           sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-extractor.yaml 
-          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-publisher-with-env.yaml
+          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' apim-stage.yaml
           
       - name: Release
         uses: softprops/action-gh-release@v1
