@@ -1,0 +1,19 @@
+{
+  "properties": {
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "description": "Azure Logic App.",
+    "displayName": "helloworldfromlogicapp",
+    "isCurrent": true,
+    "path": "helloworldfromlogicapp",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://prod-15.centralus.logic.azure.com/workflows/fd2f52f2c1e74e2c86a5124b504ccf52/triggers",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}
