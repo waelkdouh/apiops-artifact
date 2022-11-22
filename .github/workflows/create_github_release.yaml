@@ -57,9 +57,13 @@ jobs:
           files: |
             ${{github.workspace}}/tools/code/extractor/extractor/extractor
             ${{github.workspace}}/tools/code/publisher/publisher/publisher
-            ${{github.workspace}}/.github/workflows/run-extractor.yaml
-            ${{github.workspace}}/.github/workflows/run-publisher.yaml
-            ${{github.workspace}}/.github/workflows/run-publisher-with-env.yaml
+            ${{github.workspace}}/.github/workflows/run-extractor-workflow.yaml
+            ${{github.workspace}}/.github/workflows/run-publisher-workflow.yaml
+            ${{github.workspace}}/.github/workflows/run-publisher-with-env-workflow.yaml
+            ${{github.workspace}}/tools/pipelines/workflows/run-extractor.yaml
+            ${{github.workspace}}/tools/pipelines/run-publisher.yaml
+            ${{github.workspace}}/tools/pipelines/apim-stage.yaml
+            
             
           name: APIOps Toolkit for Azure APIM ${{ github.event.inputs.Release_Version }}
           tag_name: ${{ github.event.inputs.Release_Version }}
