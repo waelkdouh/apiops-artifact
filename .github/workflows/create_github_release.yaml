@@ -30,7 +30,7 @@ jobs:
           include-prerelease: true
        
          
-      - name: Generate artifacts
+      - name: Generate Artifacts
         run: |
           #delete both binaries and the versioning text file before regenerating them otherwise git won't detect a change
           #rm ${{github.workspace}}/tools/binaries/*
@@ -51,6 +51,14 @@ jobs:
           cat > ${{github.workspace}}/ReleaseVersion.txt
           echo ${{ github.event.inputs.Release_Version }} > ${{github.workspace}}/ReleaseVersion.txt
           
+          
+          #replace the [githubreleaseversion] with the release version in run-extractor.yaml
+          #go back to the root of the workspace
+          cd ${{github.workspace}}
+          cd .github/workflows/
+          sed -i 's/[githubreleaseversion]/${{ github.event.inputs.Release_Version }}/g' run-extractor.yaml 
+          more run-extractor.yaml
+          
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
@@ -58,6 +66,7 @@ jobs:
             ${{github.workspace}}/tools/code/extractor/extractor/extractor
             ${{github.workspace}}/tools/code/publisher/publisher/publisher
             ${{github.workspace}}/ReleaseVersion.txt
+            ${{github.workspace}}/.github/workflows/run-extractor.yaml
           name: APIOps Toolkit for Azure APIM ${{ github.event.inputs.Release_Version }}
           tag_name: ${{ github.event.inputs.Release_Version }}
           generate_release_notes: true
