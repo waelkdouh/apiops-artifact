@@ -23,6 +23,22 @@ paths:
       responses:
         '200':
           description: ''
+  /getstuff:
+    get:
+      summary: getstuff
+      description: getstuff
+      operationId: getstuff
+      responses:
+        '200':
+          description: ''
+  /getStuff:
+    post:
+      summary: getStuff
+      description: getStuff
+      operationId: get-stuff
+      responses:
+        '200':
+          description: ''
 components:
   securitySchemes:
     apiKeyHeader:
