@@ -32,9 +32,6 @@ jobs:
          
       - name: Generate Artifacts
         run: |
-          #delete both binaries and the versioning text file before regenerating them otherwise git won't detect a change
-          #rm ${{github.workspace}}/tools/binaries/*
-        
           #generate the extractor binary
           cd tools/code/extractor/
           dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
@@ -56,7 +53,7 @@ jobs:
           #go back to the root of the workspace
           cd ${{github.workspace}}
           cd .github/workflows/
-          sed -i 's/[githubreleaseversion]/${{ github.event.inputs.Release_Version }}/g' run-extractor.yaml 
+          sed -i 's/[githubreleaseversion]/wael/g' run-extractor.yaml 
           more run-extractor.yaml
           
       - name: Release
