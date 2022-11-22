@@ -53,7 +53,7 @@ jobs:
           #go back to the root of the workspace
           cd ${{github.workspace}}
           cd .github/workflows/
-          sed -i 's/[githubreleaseversion]/wael/g' run-extractor.yaml 
+          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-extractor.yaml 
           more run-extractor.yaml
           
       - name: Release
