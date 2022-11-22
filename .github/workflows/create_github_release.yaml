@@ -64,7 +64,7 @@ jobs:
             ${{github.workspace}}/.github/workflows/run-extractor-workflow.yaml
             ${{github.workspace}}/.github/workflows/run-publisher-workflow.yaml
             ${{github.workspace}}/.github/workflows/run-publisher-with-env-workflow.yaml
-            ${{github.workspace}}/tools/pipelines/workflows/run-extractor.yaml
+            ${{github.workspace}}/tools/pipelines/run-extractor.yaml
             ${{github.workspace}}/tools/pipelines/run-publisher.yaml
             ${{github.workspace}}/tools/pipelines/apim-stage.yaml
             
