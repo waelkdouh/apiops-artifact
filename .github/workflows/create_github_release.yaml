@@ -67,6 +67,7 @@ jobs:
             ${{github.workspace}}/tools/pipelines/run-extractor.yaml
             ${{github.workspace}}/tools/pipelines/run-publisher.yaml
             ${{github.workspace}}/tools/pipelines/apim-stage.yaml
+            ${{github.workspace}}/tools/utils/create_pull_request.sh
             
             
           name: APIOps Toolkit for Azure APIM ${{ github.event.inputs.Release_Version }}
