@@ -44,17 +44,12 @@ jobs:
           dotnet publish ./publisher.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o publisher
           cd publisher
           
-          #generate version text file
-          cat > ${{github.workspace}}/ReleaseVersion.txt
-          echo ${{ github.event.inputs.Release_Version }} > ${{github.workspace}}/ReleaseVersion.txt
-          
-          
-          #replace the [githubreleaseversion] with the release version in run-extractor.yaml
+          #replace the [githubreleaseversion] with the release version in extractor and publisher pipelines
           #go back to the root of the workspace
           cd ${{github.workspace}}
           cd .github/workflows/
           sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-extractor.yaml 
-          more run-extractor.yaml
+          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-publisher-with-env.yaml
           
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -62,7 +57,6 @@ jobs:
           files: |
             ${{github.workspace}}/tools/code/extractor/extractor/extractor
             ${{github.workspace}}/tools/code/publisher/publisher/publisher
-            ${{github.workspace}}/ReleaseVersion.txt
             ${{github.workspace}}/.github/workflows/run-extractor.yaml
           name: APIOps Toolkit for Azure APIM ${{ github.event.inputs.Release_Version }}
           tag_name: ${{ github.event.inputs.Release_Version }}
