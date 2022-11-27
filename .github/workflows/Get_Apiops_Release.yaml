@@ -37,7 +37,7 @@ jobs:
           #echo 'Here is the content of ' ${{ GITHUB.WORKSPACE }}/.github/workflows
           #ls ${{ GITHUB.WORKSPACE }}/.github/workflows
           cp ${SourceCodeFile}/tools/github_workflows/*.yaml ${{ GITHUB.WORKSPACE }}/wael
-          echo 'Here is the content of ' ${{ GITHUB.WORKSPACE }}/.github/wael
+          echo 'Here is the content of ' ${{ GITHUB.WORKSPACE }}/wael
           ls ${{ GITHUB.WORKSPACE }}/.github/wael
           #cd .github/workflows
           #rm ${SourceCodeFile} -r
