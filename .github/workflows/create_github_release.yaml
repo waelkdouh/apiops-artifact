@@ -55,7 +55,7 @@ jobs:
           sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-extractor.yaml 
           sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-publisher-with-env.yaml
 
-      - name: Package the pipelines
+      - name: Package Artifacts
         run: |
           #go back to the root of the workspace
           cd ${{github.workspace}}
