@@ -29,12 +29,12 @@ jobs:
           #a= 'apiopslab-'
           b= '${{ github.event.inputs.Release_Version}}'
           #echo 'a is set to' ${a}
-          echo 'b is set to' ${b}
+          #echo 'b is set to' ${b}
           
           #c="${a}${b}"
           #echo "${c}"
           #echo 'Here is the content of the unzipped source code files
           #cd ${c}
-          ls
+          #ls
           
 
