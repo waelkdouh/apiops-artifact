@@ -47,29 +47,32 @@ jobs:
           #replace the [githubreleaseversion] with the release version in extractor and publisher pipelines
           #go back to the root of the workspace
           cd ${{github.workspace}}
-          cd .github/workflows/
-          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-extractor-workflow.yaml 
-          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-publisher-with-env-workflow.yaml
-          cd ${{github.workspace}}
-          cd tools/pipelines/
+          cd tools/github_workflows/
           sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-extractor.yaml 
-          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' apim-stage.yaml
-          
+          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-publisher-with-env.yaml
+          cd ${{github.workspace}}
+          cd tools/azdo_pipelines/
+          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-extractor.yaml 
+          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-publisher-with-env.yaml
+
+      - name: Package the pipelines
+        run: |
+          #go back to the root of the workspace
+          cd ${{github.workspace}}
+          #create a package for the azure devops users
+          zip Azure_DevOps.zip tools/azdo_pipelines/*.yaml tools/code/publisher/publisher tools/code/extractor/extractor tools/utils/create_pull_request.sh
+          #create a package for the Github users
+          zip Github.zip tools/github_workflows/*.yaml tools/code/publisher/publisher tools/code/extractor/extractor tools/utils/create_pull_request.sh
+              
+                    
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
             ${{github.workspace}}/tools/code/extractor/extractor/extractor
             ${{github.workspace}}/tools/code/publisher/publisher/publisher
-            ${{github.workspace}}/.github/workflows/run-extractor-workflow.yaml
-            ${{github.workspace}}/.github/workflows/run-publisher-workflow.yaml
-            ${{github.workspace}}/.github/workflows/run-publisher-with-env-workflow.yaml
-            ${{github.workspace}}/tools/pipelines/run-extractor.yaml
-            ${{github.workspace}}/tools/pipelines/run-publisher.yaml
-            ${{github.workspace}}/tools/pipelines/apim-stage.yaml
-            ${{github.workspace}}/tools/utils/create_pull_request.sh
-            
-            
+            ${{github.workspace}}/Azure_DevOps.zip
+            ${{github.workspace}}/Github.zip
           name: APIOps Toolkit for Azure APIM ${{ github.event.inputs.Release_Version }}
           tag_name: ${{ github.event.inputs.Release_Version }}
           generate_release_notes: true
