@@ -35,5 +35,8 @@ jobs:
           #cp ${SourceCodeFile}/tools/github_workflows .github/workflows
           #cd .github/workflows
           ls
+          rm ${SourceCodeFile} -r
+          ls
+          echo 'removed the extracted folder and here is the ${{ GITHUB.WORKSPACE }}' ${{ GITHUB.WORKSPACE }}
           
 
