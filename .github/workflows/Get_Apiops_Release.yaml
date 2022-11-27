@@ -23,13 +23,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Fetch latest artifacts
         run: |
-          sourceCodeFile = apiopslab-${{ github.event.inputs.Release_Version}}.zip
+          #sourceCodeFile = apiopslab-${{ github.event.inputs.Release_Version}}.zip
           wget https://github.com/waelkdouh/apiopslab/archive/refs/tags/${{ github.event.inputs.Release_Version}}.zip
           echo 'ensure the zipped file was downloaded'
           ls
-          echo 'sourceCodeFile is set to' $sourceCodeFile
-          unzip $sourceCodeFile
-          echo 'Here is the content of the unzipped source code files $sourceCodeFile'
-          cd $sourceCodeFile
-          ls
+          #echo 'sourceCodeFile is set to' $sourceCodeFile
+          #unzip $sourceCodeFile
+          #echo 'Here is the content of the unzipped source code files $sourceCodeFile'
+          #cd $sourceCodeFile
+          #ls
 
