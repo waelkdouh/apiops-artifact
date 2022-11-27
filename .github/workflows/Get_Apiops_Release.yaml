@@ -29,9 +29,9 @@ jobs:
           unzip ${{ github.event.inputs.Release_Version}}.zip
           echo 'the value of COMMIT_VAR is' ${SourceCodeFile}
           pwd
-          mkdir .github/workflows
-          cp ${SourceCodeFile}/tools/github_workflows .github/workflows
-          cd .github/workflows
+          #mkdir .github/workflows
+          #cp ${SourceCodeFile}/tools/github_workflows .github/workflows
+          #cd .github/workflows
           ls
           
 
