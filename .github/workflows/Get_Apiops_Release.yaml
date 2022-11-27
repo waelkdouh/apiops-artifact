@@ -26,10 +26,9 @@ jobs:
       - name: Fetch latest artifacts
         run: |
           sourceCodeFile = apiopslab-${{ github.event.inputs.Release_Version}}.zip
-          wget https://github.com/waelkdouh/apiopslab/archive/refs/tags/sourceCodeFile
-          unzip sourceCodeFile
+          wget https://github.com/waelkdouh/apiopslab/archive/refs/tags/$sourceCodeFile
+          unzip $sourceCodeFilesourceCodeFile
           echo 'Here is the content of the unzipped source code files'
-          ls
-          cd sourceCodeFile
+          cd $sourceCodeFile
           ls
 
