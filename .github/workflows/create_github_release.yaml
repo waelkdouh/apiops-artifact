@@ -42,7 +42,6 @@ jobs:
           #generate the publisher binary
           cd tools/code/publisher/
           dotnet publish ./publisher.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o publisher
-          cd publisher
           
           #replace the [githubreleaseversion] with the release version in extractor and publisher pipelines
           #go back to the root of the workspace
@@ -60,9 +59,9 @@ jobs:
           #go back to the root of the workspace
           cd ${{github.workspace}}
           #create a package for the azure devops users
-          zip Azure_DevOps.zip tools/azdo_pipelines/*.yaml tools/code/publisher/publisher tools/code/extractor/extractor tools/utils/create_pull_request.sh
+          zip Azure_DevOps.zip tools/azdo_pipelines/*.yaml tools/code/publisher/publisher tools/utils/create_pull_request.sh
           #create a package for the Github users
-          zip Github.zip tools/github_workflows/*.yaml tools/code/publisher/publisher tools/code/extractor/extractor tools/utils/create_pull_request.sh
+          zip Github.zip tools/github_workflows/*.yaml tools/utils/create_pull_request.sh
               
                     
       - name: Release
