@@ -30,13 +30,13 @@ jobs:
         run: |
           wget https://github.com/waelkdouh/apiopslab/archive/refs/tags/${{ github.event.inputs.Release_Version}}.zip
           unzip ${{ github.event.inputs.Release_Version}}.zip
-          rm ${{ github.event.inputs.Release_Version}}.zip
-          pwd
-          #cp ${SourceCodeFile}/tools/github_workflows .github/workflows
+          #rm ${{ github.event.inputs.Release_Version}}.zip
+          echo 'Here is the content of ' ${SourceCodeFile}/tools/github_workflows
+          ls ${SourceCodeFile}/tools/github_workflows
+          cp ${SourceCodeFile}/tools/github_workflows ${{ GITHUB.WORKSPACE }}/.github/workflows
+          echo 'Here is the content of ' ${{ GITHUB.WORKSPACE }}/.github/workflows
+          ls ${{ GITHUB.WORKSPACE }}/.github/workflows
           #cd .github/workflows
-          ls
-          rm ${SourceCodeFile} -r
-          ls
-          echo 'removed the extracted folder and here is the ${{ GITHUB.WORKSPACE }}' ${{ GITHUB.WORKSPACE }}
+          #rm ${SourceCodeFile} -r
           
 
