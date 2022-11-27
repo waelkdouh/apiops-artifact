@@ -27,8 +27,8 @@ jobs:
         run: |
           wget https://github.com/waelkdouh/apiopslab/archive/refs/tags/${{ github.event.inputs.Release_Version}}.zip
           unzip ${{ github.event.inputs.Release_Version}}.zip
-          echo 'the value of COMMIT_VAR is' ${COMMIT_VAR}
-          cd SourceCodeFile
+          echo 'the value of COMMIT_VAR is' ${SourceCodeFile}
+          cd ${SourceCodeFile}
           ls
           
 
