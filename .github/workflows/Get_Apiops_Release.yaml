@@ -27,7 +27,7 @@ jobs:
           wget https://github.com/waelkdouh/apiopslab/archive/refs/tags/${{ github.event.inputs.Release_Version}}.zip
           unzip ${{ github.event.inputs.Release_Version}}.zip
           echo 'Here is the content of the unzipped source code files
-          cd apiopslab-${{ github.event.inputs.Release_Version}}
+          cd "apiopslab-${{ github.event.inputs.Release_Version}}"
           ls
           
 
