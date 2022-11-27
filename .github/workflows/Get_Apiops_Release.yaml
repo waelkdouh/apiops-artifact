@@ -28,7 +28,7 @@ jobs:
           unzip ${{ github.event.inputs.Release_Version}}.zip
           a= 'apiopslab-'
           b= '${{ github.event.inputs.Release_Version}}'
-          c="${a} ${b}"
+          c="${a}${b}"
           echo "${c}"
           #echo 'Here is the content of the unzipped source code files
           cd ${c}
