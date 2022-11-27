@@ -28,8 +28,7 @@ jobs:
           echo 'ensure the zipped file was downloaded'
           ls
           #echo 'sourceCodeFile is set to' $sourceCodeFile
-          #unzip $sourceCodeFile
-          #echo 'Here is the content of the unzipped source code files $sourceCodeFile'
-          #cd $sourceCodeFile
-          #ls
+          unzip ${{ github.event.inputs.Release_Version}}.zip
+          echo 'Here is the content of the unzipped source code files $sourceCodeFile'
+          ls
 
