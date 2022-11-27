@@ -1,0 +1,77 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Create Github Release
+
+# Controls when the workflow will run
+on:
+   workflow_dispatch:
+     inputs:
+       Release_Version:
+         description: 'Provide a release version. e.g. v.3.1.0'     
+         required: true
+         type: string
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 7.x
+          include-prerelease: true
+       
+         
+      - name: Generate Artifacts
+        run: |
+          #generate the extractor binary
+          cd tools/code/extractor/
+          dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
+          
+          #go back to the root of the workspace
+          cd ${{github.workspace}}
+
+          #generate the publisher binary
+          cd tools/code/publisher/
+          dotnet publish ./publisher.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o publisher
+          
+          #replace the [githubreleaseversion] with the release version in extractor and publisher pipelines
+          #go back to the root of the workspace
+          cd ${{github.workspace}}
+          cd tools/github_workflows/
+          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-extractor.yaml 
+          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-publisher-with-env.yaml
+          cd ${{github.workspace}}
+          cd tools/azdo_pipelines/
+          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-extractor.yaml 
+          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-publisher-with-env.yaml
+
+      - name: Package Artifacts
+        run: |
+          #go back to the root of the workspace
+          cd ${{github.workspace}}
+          #create a package for the azure devops users
+          zip Azure_DevOps.zip tools/azdo_pipelines/*.yaml tools/utils/create_pull_request.sh
+          #create a package for the Github users
+          zip Github.zip tools/github_workflows/*.yaml tools/utils/create_pull_request.sh
+              
+                    
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ${{github.workspace}}/tools/code/extractor/extractor/extractor
+            ${{github.workspace}}/tools/code/publisher/publisher/publisher
+            ${{github.workspace}}/Azure_DevOps.zip
+            ${{github.workspace}}/Github.zip
+          name: APIOps Toolkit for Azure APIM ${{ github.event.inputs.Release_Version }}
+          tag_name: ${{ github.event.inputs.Release_Version }}
+          generate_release_notes: true
