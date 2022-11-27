@@ -33,7 +33,7 @@ jobs:
           #rm ${{ github.event.inputs.Release_Version}}.zip
           echo 'Here is the content of ' ${SourceCodeFile}/tools/github_workflows
           ls ${SourceCodeFile}/tools/github_workflows
-          cp ${SourceCodeFile}/tools/github_workflows ${{ GITHUB.WORKSPACE }}/.github/workflows
+          cp -r ${SourceCodeFile}/tools/github_workflows ${{ GITHUB.WORKSPACE }}/.github/workflows
           echo 'Here is the content of ' ${{ GITHUB.WORKSPACE }}/.github/workflows
           ls ${{ GITHUB.WORKSPACE }}/.github/workflows
           #cd .github/workflows
