@@ -34,7 +34,7 @@ jobs:
           ls ${SourceCodeFile}/tools/github_workflows
           echo 'Copying the extracted content into the designated locations'
           cp ${SourceCodeFile}/tools/github_workflows/*.yaml ${{ GITHUB.WORKSPACE }}/.github/workflows
-          cp ${SourceCodeFile}/tools/utils/create_pull_request.sh ${{ GITHUB.WORKSPACE }}/tool/utils
+          cp ${SourceCodeFile}/tools/utils/create_pull_request.sh ${{ GITHUB.WORKSPACE }}/tools/utils
       - name: Create new release pull request
         uses: peter-evans/create-pull-request@v3
         with:
