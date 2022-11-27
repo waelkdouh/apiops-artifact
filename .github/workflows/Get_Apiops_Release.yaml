@@ -25,8 +25,9 @@ jobs:
         run: |
           $sourceCodeFile = apiopslab-${{ github.event.inputs.Release_Version}}.zip
           wget https://github.com/waelkdouh/apiopslab/archive/refs/tags/${{ github.event.inputs.Release_Version}}.zip
+          echo 'sourceCodeFile is set to $sourceCodeFile'
           unzip $sourceCodeFile
-          echo 'Here is the content of the unzipped source code files'
+          echo 'Here is the content of the unzipped source code files $sourceCodeFile'
           cd $sourceCodeFile
           ls
 
