@@ -29,7 +29,7 @@ jobs:
           pwd
           echo 'list content before unzipping'
           ls
-          unzip Github.zip -d Github
+          unzip Github.zip
           echo 'print working directory before navigating to Github folder'
           pwd
           echo 'list content after unzipping before navigating to Github folder'
