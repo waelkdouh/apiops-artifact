@@ -30,7 +30,9 @@ jobs:
           ls ${SourceCodeFile}/tools/github_workflows
           echo 'Here is the content of ' ${SourceCodeFile}/tools/utils
           ls ${SourceCodeFile}/tools/utils
+          mkdir -p .github/workflows
           mkdir -p tools/utils
+          echo 'Copying the extracted content into the designated locations'
           rm -R ${SourceCodeFile}
           rm ${{ github.event.inputs.Release_Version}}.zip
           cd tools/utils
