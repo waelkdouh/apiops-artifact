@@ -29,9 +29,9 @@ jobs:
           pwd
           echo 'list content before unzipping'
           ls
-          unzip ./Github.zip
-          echo 'list content after unzipping'
-          ls
+          #unzip ./Github.zip
+          #echo 'list content after unzipping'
+          #ls
           #cp -r .github/workflows ${{ GITHUB.WORKSPACE }}/.github/workflows
           # clean up
           #cd ..
