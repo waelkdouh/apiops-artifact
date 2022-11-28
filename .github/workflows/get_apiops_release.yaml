@@ -25,6 +25,9 @@ jobs:
           wget https://github.com/waelkdouh/apiopslab/releases/download/${{ github.event.inputs.Release_Version}}/Github.zip
           unzip Github.zip -d ./Github
           cd Github
+          echo 'print working directory and list content'
+          pwd
+          ls
           cp -r .github/workflows ${{ GITHUB.WORKSPACE }}/.github/workflows
           rm -R Github.zip
       - name: publish artifact
