@@ -28,9 +28,15 @@ jobs:
           unzip ${{ github.event.inputs.Release_Version}}.zip
           echo 'Here is the content of ' ${SourceCodeFile}/tools/github_workflows
           ls ${SourceCodeFile}/tools/github_workflows
+          echo 'Here is the content of ' ${SourceCodeFile}/tools/utils
+          ls ${SourceCodeFile}/tools/utils
           mkdir -p .github/workflows
           mkdir -p tools/utils
           echo 'Copying the extracted content into the designated locations'
           cp ${SourceCodeFile}/tools/github_workflows/*.yaml .github/workflows
-          #cp ${SourceCodeFile}/tools/utils/create_pull_request.sh ${{ GITHUB.WORKSPACE }}/tools/utils
+          cp ${SourceCodeFile}/tools/utils/create_pull_request.sh ${{ GITHUB.WORKSPACE }}/tools/utils
+          echo 'Printing the content of the runner after extracting the files'
+          ls ${{ GITHUB.WORKSPACE }}
+          
 
+     
