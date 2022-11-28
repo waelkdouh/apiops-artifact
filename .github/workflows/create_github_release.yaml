@@ -60,16 +60,20 @@ jobs:
           cd ${{github.workspace}}
           mkdir finalartifacts
           cd finalartifacts
-          echo 'print working directory'
-          pwd
-          echo 'print content of directory'
-          ls
+          mkdir -p tools/pipelines
+          mkdir -p tools/utils
+          mkdir -p .github/workflows
+          # this will ensure the right directory structure in the zipped packages when released on github
+          cp ${{github.workspace}}/tools/azdo_pipelines/*.yaml tools/pipelines
+          cp ${{github.workspace}}/tools/github_workflows/*.yaml .github/workflows
           #create a package for the azure devops users
-          zip Azure_DevOps.zip ${{github.workspace}}/tools/azdo_pipelines/*.yaml ${{github.workspace}}/tools/utils/create_pull_request.sh
+          zip Azure_DevOps.zip tools/pipelines/*.yaml tools/utils/create_pull_request.sh
           #create a package for the Github users
-          zip Github.zip ${{github.workspace}}/tools/github_workflows/*.yaml
-
-
+          zip Github.zip .github/workflows/*.yaml
+          #carry cleanup before publishing
+          rm -R tools
+          rm -R .github
+          
       - name: publish artifact
         uses: actions/upload-artifact@v2
         with:
