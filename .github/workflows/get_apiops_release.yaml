@@ -30,20 +30,13 @@ jobs:
           echo 'list content before unzipping'
           ls
           unzip Github.zip
-          echo 'print working directory before navigating to Github folder'
-          pwd
-          echo 'list content after unzipping before navigating to Github folder'
-          ls
-          cd Github
-          echo 'print working directory after unzipping'
-          pwd
           echo 'list content after unzipping'
           ls
-          cp -r .github/workflows ${{ GITHUB.WORKSPACE }}/.github/workflows
+          #cp -r .github/workflows ${{ GITHUB.WORKSPACE }}/.github/workflows
           # clean up
-          cd ..
-          rm -R Github.zip
-          rm -R Github
+          #cd ..
+          #rm -R Github.zip
+          #rm -R Github
       - name: publish artifact
         uses: actions/upload-artifact@v2
         with:
