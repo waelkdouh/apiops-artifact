@@ -82,6 +82,11 @@ jobs:
         with:
           name: artifacts
           path: ${{ GITHUB.WORKSPACE }}/finalartifacts
+      - name: Logging
+        run: |
+          echo 'print current directory and contents'
+          pwd
+          ls
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
