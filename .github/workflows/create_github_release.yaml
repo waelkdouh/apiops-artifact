@@ -65,9 +65,9 @@ jobs:
           echo 'print content of directory'
           ls
           #create a package for the azure devops users
-          #zip Azure_DevOps.zip tools/azdo_pipelines/*.yaml tools/utils/create_pull_request.sh
+          zip Azure_DevOps.zip ${{github.workspace}}/tools/azdo_pipelines/*.yaml ${{github.workspace}}/tools/utils/create_pull_request.sh
           #create a package for the Github users
-          #zip Github.zip tools/github_workflows/*.yaml
+          zip Github.zip ${{github.workspace}}/tools/github_workflows/*.yaml
 
 
       - name: publish artifact
@@ -85,7 +85,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: artifacts
-          path: ${{ GITHUB.WORKSPACE }}
+          path: ${{ GITHUB.WORKSPACE }}/finalartifacts
      
       - name: log of the downloaded artifacts
         run: |
