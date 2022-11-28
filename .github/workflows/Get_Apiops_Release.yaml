@@ -41,11 +41,9 @@ jobs:
           ls ${{ GITHUB.WORKSPACE }}
           echo 'Printing tools content'
           ls ${{ GITHUB.WORKSPACE }}/tools
-          echo 'Printing tools/'
-          ls ${{ GITHUB.WORKSPACE }}/tools
-          echo 'Printing tools content of .github/workflows'
+          echo 'Printing content of .github/workflows'
           #ls ${{ GITHUB.WORKSPACE }}/.github/workflows
-          echo 'Printing tools content of /tools/utils'
+          echo 'Printing content of /tools/utils'
           ls ${{ GITHUB.WORKSPACE }}/tools/utils
           
           
