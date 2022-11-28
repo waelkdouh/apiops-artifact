@@ -33,8 +33,8 @@ jobs:
           mkdir -p .github/workflows
           mkdir -p tools/utils
           echo 'Copying the extracted content into the designated locations'
-          cp ${SourceCodeFile}/tools/github_workflows/*.yaml ${{ GITHUB.WORKSPACE }}/.github/workflows
-          cp ${SourceCodeFile}/tools/utils/create_pull_request.sh ${{ GITHUB.WORKSPACE }}/tools/utils
+          yes | cp ${SourceCodeFile}/tools/github_workflows/*.yaml ${{ GITHUB.WORKSPACE }}/.github/workflows
+          yes | cp ${SourceCodeFile}/tools/utils/create_pull_request.sh ${{ GITHUB.WORKSPACE }}/tools/utils
           rm -R ${SourceCodeFile}
           rm ${{ github.event.inputs.Release_Version}}.zip
           echo 'Printing the content of the runner after extracting the files'
@@ -45,8 +45,6 @@ jobs:
           #ls ${{ GITHUB.WORKSPACE }}/.github/workflows
           echo 'Printing content of /tools/utils'
           ls ${{ GITHUB.WORKSPACE }}/tools/utils
-          cd tools/utils
-          cat > file.txt
       - name: publish artifact
         uses: actions/upload-artifact@v2
         with:
