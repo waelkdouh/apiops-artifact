@@ -14,7 +14,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  Generate_Artifacts:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -58,20 +58,36 @@ jobs:
         run: |
           #go back to the root of the workspace
           cd ${{github.workspace}}
+          mkdir finalartifacts
+          cd finalartifacts
           #create a package for the azure devops users
           zip Azure_DevOps.zip tools/azdo_pipelines/*.yaml tools/utils/create_pull_request.sh
           #create a package for the Github users
-          zip Github.zip tools/github_workflows/*.yaml tools/utils/create_pull_request.sh
+          zip Github.zip tools/github_workflows/*.yaml
 
 
-      - name: Release
-        uses: softprops/action-gh-release@v1
+      - name: publish artifact
+        uses: actions/upload-artifact@v2
         with:
-          files: |
-            ${{github.workspace}}/tools/code/extractor/extractor/extractor
-            ${{github.workspace}}/tools/code/publisher/publisher/publisher
-            ${{github.workspace}}/Azure_DevOps.zip
-            ${{github.workspace}}/Github.zip
-          name: APIOps Toolkit for Azure APIM ${{ github.event.inputs.Release_Version }}
-          tag_name: ${{ github.event.inputs.Release_Version }}
-          generate_release_notes: true
+          name: artifacts
+          path: ${{ GITHUB.WORKSPACE }}/finalartifacts
+
+
+  Generate_Release:
+    needs: Generate_Artifacts
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Download artifacts-from-release
+        uses: actions/download-artifact@v2
+        with:
+          name: artifacts
+          path: ${{ GITHUB.WORKSPACE }}
+     
+      - name: log of the downloaded artifacts
+        run: |
+          echo 'Here are the current directory'
+          pwd
+          echo 'Here are the artifacts that got downloaded'
+          ls
+
+    
