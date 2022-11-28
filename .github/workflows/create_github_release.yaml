@@ -60,6 +60,10 @@ jobs:
           cd ${{github.workspace}}
           mkdir finalartifacts
           cd finalartifacts
+          echo 'print working directory'
+          pwd
+          echo 'print content of directory'
+          ls
           #create a package for the azure devops users
           zip Azure_DevOps.zip tools/azdo_pipelines/*.yaml tools/utils/create_pull_request.sh
           #create a package for the Github users
