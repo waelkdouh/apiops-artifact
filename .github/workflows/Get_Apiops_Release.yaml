@@ -33,6 +33,8 @@ jobs:
           mkdir -p .github/workflows
           mkdir -p tools/utils
           echo 'Copying the extracted content into the designated locations'
+          cp ${SourceCodeFile}/tools/github_workflows/*.yaml ${{ GITHUB.WORKSPACE }}/.github/workflows
+          cp ${SourceCodeFile}/tools/utils/create_pull_request.sh ${{ GITHUB.WORKSPACE }}/tools/utils
           rm -R ${SourceCodeFile}
           rm ${{ github.event.inputs.Release_Version}}.zip
           cd tools/utils
