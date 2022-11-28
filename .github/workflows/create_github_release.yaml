@@ -67,8 +67,8 @@ jobs:
           cp ${{github.workspace}}/tools/azdo_pipelines/*.yaml tools/pipelines
           cp ${{github.workspace}}/tools/utils/* tools/utils
           cp ${{github.workspace}}/tools/github_workflows/*.yaml .github/workflows
-          cp -r ${{github.workspace}}/tools/code/extractor/extractor . 
-          cp -r ${{github.workspace}}/tools/code/publisher/publisher . 
+          cp -r ${{github.workspace}}/tools/code/extractor/extractor/extractor . 
+          cp -r ${{github.workspace}}/tools/code/publisher/publisher/publisher . 
           #create a package for the azure devops users
           zip Azure_DevOps.zip tools/pipelines/*.yaml tools/utils/create_pull_request.sh
           #create a package for the Github users
@@ -93,13 +93,14 @@ jobs:
      with:
        name: artifacts
        path: ${{ GITHUB.WORKSPACE }}/finalartifacts
-   - name: log
-     run: |
-       cd finalartifacts
-       echo 'pwd and ls'
-       pwd
-       ls
-       echo 'check if extractor is a folder'
-       cd extractor
-       ls
- 
+   - name: Release
+     uses: softprops/action-gh-release@v1
+     with:
+       files: |
+         ${{github.workspace}}/finalartifacts/extractor
+         ${{github.workspace}}/finalartifacts/publisher
+         ${{github.workspace}}/finalartifacts/Azure_DevOps.zip
+         ${{github.workspace}}/finalartifacts/Github.zip
+       name: APIOps Toolkit for Azure APIM ${{ github.event.inputs.Release_Version }}
+       tag_name: ${{ github.event.inputs.Release_Version }}
+       generate_release_notes: true
