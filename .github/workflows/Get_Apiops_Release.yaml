@@ -45,7 +45,11 @@ jobs:
           #ls ${{ GITHUB.WORKSPACE }}/.github/workflows
           echo 'Printing content of /tools/utils'
           ls ${{ GITHUB.WORKSPACE }}/tools/utils
-          
-          
+
+      - name: publish artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts-from-release
+          path: ${{ GITHUB.WORKSPACE }}
 
      
