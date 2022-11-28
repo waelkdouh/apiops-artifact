@@ -33,7 +33,7 @@ jobs:
           mkdir -p .github/workflows
           mkdir -p tools/utils
           echo 'Copying the extracted content into the designated locations'
-          cp ${SourceCodeFile}/tools/github_workflows/*.yaml .github/workflows
+          cp ${SourceCodeFile}/tools/github_workflows/*.yaml ${{ GITHUB.WORKSPACE }}/.github/workflows
           cp ${SourceCodeFile}/tools/utils/create_pull_request.sh ${{ GITHUB.WORKSPACE }}/tools/utils
           rm -R ${SourceCodeFile}
           rm ${{ github.event.inputs.Release_Version}}.zip
@@ -43,8 +43,8 @@ jobs:
           ls ${{ GITHUB.WORKSPACE }}/tools
           echo 'Printing tools/'
           ls ${{ GITHUB.WORKSPACE }}/tools
-          echo 'Printing tools content of /tools/github_workflows'
-          ls ${{ GITHUB.WORKSPACE }}/tools/github_workflows
+          echo 'Printing tools content of .github/workflows'
+          #ls ${{ GITHUB.WORKSPACE }}/.github/workflows
           echo 'Printing tools content of /tools/utils'
           ls ${{ GITHUB.WORKSPACE }}/tools/utils
           
