@@ -39,6 +39,15 @@ jobs:
           rm ${{ github.event.inputs.Release_Version}}.zip
           echo 'Printing the content of the runner after extracting the files'
           ls ${{ GITHUB.WORKSPACE }}
+          echo 'Printing tools content'
+          ls /tools
+          echo 'Printing tools/'
+          ls /tools
+          echo 'Printing tools content of /tools/github_workflows'
+          ls /tools/github_workflows
+          echo 'Printing tools content of /tools/utils'
+          ls /tools/utils
+          
           
 
      
