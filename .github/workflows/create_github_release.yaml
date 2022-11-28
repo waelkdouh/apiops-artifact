@@ -99,4 +99,7 @@ jobs:
        echo 'pwd and ls'
        pwd
        ls
+       echo 'check if extractor is a folder'
+       cd extractor
+       ls
  
