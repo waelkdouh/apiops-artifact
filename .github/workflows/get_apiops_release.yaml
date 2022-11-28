@@ -30,6 +30,10 @@ jobs:
           echo 'list content before unzipping'
           ls
           unzip Github.zip -d Github
+          echo 'print working directory before navigating to Github folder'
+          pwd
+          echo 'list content after unzipping before navigating to Github folder'
+          ls
           cd Github
           echo 'print working directory after unzipping'
           pwd
@@ -37,6 +41,7 @@ jobs:
           ls
           cp -r .github/workflows ${{ GITHUB.WORKSPACE }}/.github/workflows
           # clean up
+          cd ..
           rm -R Github.zip
           rm -R Github
       - name: publish artifact
