@@ -31,6 +31,8 @@ jobs:
           echo 'Here is the content of ' ${SourceCodeFile}/tools/utils
           ls ${SourceCodeFile}/tools/utils
           mkdir -p tools/utils
+          rm -R ${SourceCodeFile}
+          rm ${{ github.event.inputs.Release_Version}}.zip
           cd tools/utils
           cat > file.txt
       - name: publish artifact
