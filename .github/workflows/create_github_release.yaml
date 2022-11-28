@@ -73,9 +73,6 @@ jobs:
           zip Azure_DevOps.zip tools/pipelines/*.yaml tools/utils/create_pull_request.sh
           #create a package for the Github users
           zip Github.zip .github/workflows/*.yaml
-          echo 'print the content of the current directory'
-          pwd
-          ls
           #carry cleanup before publishing
           rm -R tools
           rm -R .github
