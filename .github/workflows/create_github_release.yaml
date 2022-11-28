@@ -81,7 +81,7 @@ jobs:
     needs: Generate_Artifacts
     runs-on: [ubuntu-latest]
     steps:
-      - name: Download artifacts-from-release
+      - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
           name: artifacts
@@ -89,9 +89,10 @@ jobs:
      
       - name: log of the downloaded artifacts
         run: |
-          echo 'Here are the current directory'
-          pwd
-          echo 'Here are the artifacts that got downloaded'
+          echo 'current directory'
+          ls
+          cd finalartifacts
+          echo 'finalartifacts directory'
           ls
 
     
