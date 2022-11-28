@@ -54,12 +54,24 @@ jobs:
           sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-extractor.yaml 
           sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-publisher-with-env.yaml
 
+      - name: Package the artifacts 
+        run: |
+          #go back to the root of the workspace
+          cd ${{github.workspace}}
+          #create a package for the azure devops users
+          zip Azure_DevOps.zip tools/azdo_pipelines/*.yaml tools/utils/create_pull_request.sh
+          #create a package for the Github users
+          zip Github.zip tools/github_workflows/*.yaml tools/utils/create_pull_request.sh
+
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
             ${{github.workspace}}/tools/code/extractor/extractor/extractor
             ${{github.workspace}}/tools/code/publisher/publisher/publisher
+            ${{github.workspace}}/Azure_DevOps.zip
+            ${{github.workspace}}/Github.zip
           name: APIOps Toolkit for Azure APIM ${{ github.event.inputs.Release_Version }}
           tag_name: ${{ github.event.inputs.Release_Version }}
           generate_release_notes: true
