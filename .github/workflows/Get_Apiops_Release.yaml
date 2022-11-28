@@ -49,7 +49,7 @@ jobs:
       - name: publish artifact
         uses: actions/upload-artifact@v2
         with:
-          name: artifacts-from-portal
+          name: artifacts-from-release
           path: ${{ GITHUB.WORKSPACE }}
 
   create-pull-request:
