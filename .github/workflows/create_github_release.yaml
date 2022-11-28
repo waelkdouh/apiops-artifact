@@ -65,6 +65,7 @@ jobs:
           mkdir -p .github/workflows
           # this will ensure the right directory structure in the zipped packages when released on github
           cp ${{github.workspace}}/tools/azdo_pipelines/*.yaml tools/pipelines
+          cp ${{github.workspace}}/tools/utils/* tools/utils
           cp ${{github.workspace}}/tools/github_workflows/*.yaml .github/workflows
           #create a package for the azure devops users
           zip Azure_DevOps.zip tools/pipelines/*.yaml tools/utils/create_pull_request.sh
