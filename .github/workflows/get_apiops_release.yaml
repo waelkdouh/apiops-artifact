@@ -23,7 +23,7 @@ jobs:
       - name: Fetch latest artifacts
         run: |
           wget https://github.com/waelkdouh/apiopslab/releases/download/${{ github.event.inputs.Release_Version}}/Github.zip
-          unzip Github.zip
+          unzip Github.zip -d ./Github
           cd Github
           cp -r .github/workflows ${{ GITHUB.WORKSPACE }}/.github/workflows
           rm -R Github.zip
