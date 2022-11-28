@@ -92,12 +92,16 @@ jobs:
           name: artifacts
           path: ${{ GITHUB.WORKSPACE }}/finalartifacts
      
-      - name: log of the downloaded artifacts
-        run: |
-          echo 'current directory'
-          ls
-          cd finalartifacts
-          echo 'finalartifacts directory'
-          ls
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ${{github.workspace}}/tools/code/extractor/extractor/extractor
+            ${{github.workspace}}/tools/code/publisher/publisher/publisher
+            ${{github.workspace}}/Azure_DevOps.zip
+            ${{github.workspace}}/Github.zip
+          name: APIOps Toolkit for Azure APIM ${{ github.event.inputs.Release_Version }}
+          tag_name: ${{ github.event.inputs.Release_Version }}
+          generate_release_notes: true
 
     
