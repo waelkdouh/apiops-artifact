@@ -95,6 +95,7 @@ jobs:
        path: ${{ GITHUB.WORKSPACE }}/finalartifacts
    - name: log
      run: |
+       cd finalartifacts
        echo 'pwd and ls'
        pwd
        ls
