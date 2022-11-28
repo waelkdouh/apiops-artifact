@@ -48,11 +48,9 @@ jobs:
 
       - name: publish artifact
         uses: actions/upload-artifact@v2
-        env:
-          API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: apimartifacts  # change this to the artifacts folder  
         with:
           name: artifacts-from-portal
-          path: ${{ GITHUB.WORKSPACE }}/${{ env.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}
+          path: ${{ GITHUB.WORKSPACE }}
 
   create-pull-request:
     needs: FetchLatestRelease
@@ -64,12 +62,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: artifacts-from-release
-          path: ${{ GITHUB.WORKSPACE }}/release
+          path: ${{ GITHUB.WORKSPACE }}
 
       - name: Create artifacts pull request
         uses: peter-evans/create-pull-request@v3
-        env:
-          API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: apimartifacts  # change this to the artifacts folder          
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "updated extract from apim instance ${{ env.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}"
