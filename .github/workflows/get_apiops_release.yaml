@@ -37,6 +37,8 @@ jobs:
           rm -R Github.zip
           rm -R tools
           rm -R .git
+          rm -R .github/ISSUE_TEMPLATE
+          rm -R .github/workflows/create_github_release.yaml
       - name: publish artifact
         uses: actions/upload-artifact@v2
         with:
