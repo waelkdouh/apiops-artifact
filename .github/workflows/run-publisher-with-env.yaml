@@ -1,4 +1,3 @@
-
 name: Run Publisher with Environment
 
 on:
@@ -61,7 +60,7 @@ jobs:
           API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ GITHUB.WORKSPACE }}/${{ inputs.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}
           COMMIT_ID: ${{ inputs.COMMIT_ID }}
         run: |
-          wget https://github.com/waelkdouh/apiopslab/releases/download/github_release_version/publisher
+          wget https://github.com/waelkdouh/apiopslab/releases/download/v.1/publisher
           chmod +x ./publisher
           ./publisher        
           
@@ -76,7 +75,7 @@ jobs:
           API_MANAGEMENT_SERVICE_NAME: ${{ secrets.API_MANAGEMENT_SERVICE_NAME }}
           API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ GITHUB.WORKSPACE }}/${{ inputs.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}
         run: |
-          wget https://github.com/waelkdouh/apiopslab/releases/download/github_release_version/publisher
+          wget https://github.com/waelkdouh/apiopslab/releases/download/v.1/publisher
           chmod +x ./publisher
           ./publisher  
       
@@ -93,7 +92,7 @@ jobs:
           CONFIGURATION_YAML_PATH:  ${{ GITHUB.WORKSPACE }}/${{ inputs.CONFIGURATION_YAML_PATH }}
           COMMIT_ID: ${{ inputs.COMMIT_ID }}
         run: |
-          wget https://github.com/waelkdouh/apiopslab/releases/download/github_release_version/publisher
+          wget https://github.com/waelkdouh/apiopslab/releases/download/v.1/publisher
           chmod +x ./publisher
           ./publisher
      
@@ -110,6 +109,6 @@ jobs:
           API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ GITHUB.WORKSPACE }}/${{ inputs.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}
           CONFIGURATION_YAML_PATH:  ${{ GITHUB.WORKSPACE }}/${{ inputs.CONFIGURATION_YAML_PATH }}
         run: |
-          wget https://github.com/waelkdouh/apiopslab/releases/download/github_release_version/publisher
+          wget https://github.com/waelkdouh/apiopslab/releases/download/v.1/publisher
           chmod +x ./publisher
           ./publisher             
