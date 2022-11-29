@@ -35,6 +35,8 @@ jobs:
           #cp -r .github/workflows ${{ GITHUB.WORKSPACE }}/.github/workflows
           # clean up
           rm -R Github.zip
+          rm -R tools
+          rm -R .git
       - name: publish artifact
         uses: actions/upload-artifact@v2
         with:
