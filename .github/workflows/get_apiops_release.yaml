@@ -34,3 +34,4 @@ jobs:
           ls
           echo 'run the find command'
           find . -type d -maxdepth 1 -mindepth 1
+          find -name ".github*" -type d
