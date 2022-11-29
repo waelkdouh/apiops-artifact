@@ -33,5 +33,10 @@ jobs:
           echo 'list content after unzipping'
           ls
           echo 'run the find command'
-          find . -type d -maxdepth 1 -mindepth 1
-          find -name ".github*" -type d
+          #find . -type d -maxdepth 1 -mindepth 1
+          #find -name ".github*" -type d
+          for f in *; do
+             if [ -d "$f" ]; then
+                 # $f is a directory
+             fi
+          done
