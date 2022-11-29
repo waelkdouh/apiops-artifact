@@ -27,6 +27,9 @@ jobs:
           mkdir finalartifacts
           cd finalartifacts
           wget https://github.com/waelkdouh/apiopslab/releases/download/${{ github.event.inputs.Release_Version}}/Github.zip
+          echo 'list current directory before unzipping'
+          pwd
+          ls
           unzip -o Github.zip
           echo 'list content after unzipping'
           pwd
