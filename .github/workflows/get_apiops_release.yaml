@@ -49,6 +49,9 @@ jobs:
 
       - name: logging
         run: |
+          echo 'print current directory and content before navigating to finalartifacts'
+          pwd
+          ls
           cd finalartifacts
           echo 'print current directory and content'
           pwd
