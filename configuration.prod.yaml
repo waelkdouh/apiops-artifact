@@ -1,5 +1,4 @@
-
-apimServiceName: apim-prod-wk-05102022
+apimServiceName: apim-prod-wk-05102022demo
 namedValues:
   - name: environment
     properties:
