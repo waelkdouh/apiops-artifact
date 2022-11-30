@@ -1,0 +1,71 @@
+parameters:
+  - name: Release_Version
+    displayName: Provide a release version. e.g. v.3.1.0. Refer to the Apiops Repo Release section for available versions.
+    type: string
+  
+  - name: APIM_REPOSITORY_NAME
+    type: string
+    displayName: APIM repository for pull request
+    default: apiops
+
+  - name: TARGET_BRANCH_NAME
+    type: string
+    displayName: Target branch for pull request
+    default: main
+
+trigger: none
+
+
+stages:
+  - stage: get_latest_apiops_release
+    displayName: Get latest APIops release
+    jobs:
+      - job: FetchLatestRelease
+        displayName: Fetch latest release
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: Bash@3
+            displayName: Fetch extractor
+            inputs:
+              targetType: 'inline'
+              script: |
+                mkdir $(Build.ArtifactStagingDirectory)/finalartifacts
+                cd $(Build.ArtifactStagingDirectory)/finalartifacts
+                wget https://github.com/waelkdouh/apiopslab/releases/download/${{ parameters.Release_Version }}/Azure_DevOps.zip
+                unzip -o Azure_DevOps.zip
+                rm -R Azure_DevOps.zip
+                result=$?
+                echo "Exit code is $result"
+                exit $result
+              failOnStderr: false
+          - task: PublishPipelineArtifact@1
+            displayName: Publish pipeline artifact
+            inputs:
+              targetPath: "$(Build.ArtifactStagingDirectory)/finalartifacts"
+              artifactType: pipeline
+              artifactName: artifacts-from-release
+  
+  - stage: Create_Pull_Request
+    displayName: Create Pull Request
+    jobs:
+      - job: create_artifacts_pull_request
+        displayName: Create artifacts pull request
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - checkout: self
+          - task: DownloadPipelineArtifact@2
+            displayName: Download artifacts from release
+            inputs:
+              source: current
+              artifactName: artifacts-from-release
+              targetPath: $(Pipeline.Workspace)
+          - task: Bash@3
+            displayName: Create pull request with artifacts
+            inputs:
+              targetType: 'filepath'
+              filePath: $(Build.SourcesDirectory)/tools/utils/create_pull_request.sh
+              arguments: --organization-url "$(System.TeamFoundationCollectionUri)" --project-name "$(System.TeamProject)" --repository-name "${{ parameters.APIM_REPOSITORY_NAME }}" --pull-request-title "Apiops version ${{ parameters.Release_Version }}" --branch-name "${{ parameters.TARGET_BRANCH_NAME }}" --source-folder-path "$(Pipeline.Workspace)" --temporary-branch-name "create-pull-request-${{ parameters.Release_Version }}" --temporary-folder-path "$(Agent.TempDirectory)/artifacts-from-Github-repo" --overwrite-subfolder "tools" 
+            env:
+              AZURE_DEVOPS_EXT_PAT: "$(System.AccessToken)"
