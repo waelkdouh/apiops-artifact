@@ -40,7 +40,7 @@ jobs:
     needs: FetchLatestRelease
     runs-on: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v2
+      #- uses: actions/checkout@v2
           
       - name: Download artifacts-from-release
         uses: actions/download-artifact@v2
