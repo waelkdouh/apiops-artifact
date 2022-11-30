@@ -26,6 +26,7 @@ jobs:
         run: |
           mkdir finalartifacts
           cd finalartifacts
+          cat > wael.txt
           wget https://github.com/waelkdouh/apiopslab/releases/download/${{ github.event.inputs.Release_Version}}/Github.zip
           unzip -o Github.zip
           rm -R Github.zip
