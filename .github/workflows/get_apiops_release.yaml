@@ -45,17 +45,17 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: artifacts-from-release
-          path: ${{ GITHUB.WORKSPACE }}/finalartifacts
+          path: ${{ GITHUB.WORKSPACE }}
 
       - name: logging
         run: |
           echo 'print current directory and content before navigating to finalartifacts'
           pwd
           ls
-          cd finalartifacts
-          echo 'print current directory and content'
-          pwd
-          ls
+          #cd finalartifacts
+          #echo 'print current directory and content'
+          #pwd
+          #ls
           
 
 
