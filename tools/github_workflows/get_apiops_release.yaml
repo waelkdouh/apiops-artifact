@@ -24,26 +24,16 @@ jobs:
       
       - name: Fetch latest artifacts
         run: |
+          mkdir finalartifacts
+          cd finalartifacts
           wget https://github.com/waelkdouh/apiopslab/releases/download/${{ github.event.inputs.Release_Version}}/Github.zip
-          echo 'print working directory before unzipping'
-          pwd
-          echo 'list content before unzipping'
-          ls
           unzip -o Github.zip
-          echo 'list content after unzipping'
-          ls
-          #cp -r .github/workflows ${{ GITHUB.WORKSPACE }}/.github/workflows
-          # clean up
           rm -R Github.zip
-          rm -R tools
-          rm -R .git
-          rm -R .github/ISSUE_TEMPLATE
-          rm -R .github/workflows/create_github_release.yaml
       - name: publish artifact
         uses: actions/upload-artifact@v2
         with:
           name: artifacts-from-release
-          path: ${{ GITHUB.WORKSPACE }}
+          path: ${{ GITHUB.WORKSPACE }}/finalartifacts
 
   create-pull-request:
     needs: FetchLatestRelease
