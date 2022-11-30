@@ -29,6 +29,7 @@ jobs:
           wget https://github.com/waelkdouh/apiopslab/releases/download/${{ github.event.inputs.Release_Version}}/Github.zip
           unzip -o Github.zip
           rm -R Github.zip
+      
       - name: publish artifact
         uses: actions/upload-artifact@v2
         with:
@@ -46,7 +47,7 @@ jobs:
         with:
           name: artifacts-from-release
           path: ${{ GITHUB.WORKSPACE }}
-
+      
       - name: Create release pull request
         uses: peter-evans/create-pull-request@v3
         with:
