@@ -42,17 +42,6 @@ jobs:
           #generate the publisher binary
           cd tools/code/publisher/
           dotnet publish ./publisher.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o publisher
-          
-          #replace the [githubreleaseversion] with the release version in extractor and publisher pipelines
-          #go back to the root of the workspace
-          cd ${{github.workspace}}
-          cd tools/github_workflows/
-          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-extractor.yaml 
-          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-publisher-with-env.yaml
-          cd ${{github.workspace}}
-          cd tools/azdo_pipelines/
-          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-extractor.yaml 
-          sed -i 's/github_release_version/${{ github.event.inputs.Release_Version }}/g' run-publisher-with-env.yaml
 
       - name: Package the artifacts 
         run: |
