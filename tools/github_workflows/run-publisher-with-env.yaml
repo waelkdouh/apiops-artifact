@@ -15,7 +15,10 @@ on:
       API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: 
         required: true
         type: string          
-        
+
+env:
+  apiops_release_version: desired-version-goes-here
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -60,7 +63,7 @@ jobs:
           API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ GITHUB.WORKSPACE }}/${{ inputs.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}
           COMMIT_ID: ${{ inputs.COMMIT_ID }}
         run: |
-          wget https://github.com/waelkdouh/apiopslab/releases/download/${{ secrets.apiops_release_version }}/publisher
+          wget https://github.com/waelkdouh/apiopslab/releases/download/$apiops_release_version/publisher
           chmod +x ./publisher
           ./publisher        
           
@@ -75,7 +78,7 @@ jobs:
           API_MANAGEMENT_SERVICE_NAME: ${{ secrets.API_MANAGEMENT_SERVICE_NAME }}
           API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ GITHUB.WORKSPACE }}/${{ inputs.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}
         run: |
-          wget https://github.com/waelkdouh/apiopslab/releases/download/${{ secrets.apiops_release_version }}/publisher
+          wget https://github.com/waelkdouh/apiopslab/releases/download/$apiops_release_version/publisher
           chmod +x ./publisher
           ./publisher  
       
@@ -92,7 +95,7 @@ jobs:
           CONFIGURATION_YAML_PATH:  ${{ GITHUB.WORKSPACE }}/${{ inputs.CONFIGURATION_YAML_PATH }}
           COMMIT_ID: ${{ inputs.COMMIT_ID }}
         run: |
-          wget https://github.com/waelkdouh/apiopslab/releases/download/${{ secrets.apiops_release_version }}/publisher
+          wget https://github.com/waelkdouh/apiopslab/releases/download/$apiops_release_version/publisher
           chmod +x ./publisher
           ./publisher
      
@@ -109,6 +112,6 @@ jobs:
           API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ GITHUB.WORKSPACE }}/${{ inputs.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}
           CONFIGURATION_YAML_PATH:  ${{ GITHUB.WORKSPACE }}/${{ inputs.CONFIGURATION_YAML_PATH }}
         run: |
-          wget https://github.com/waelkdouh/apiopslab/releases/download/${{ secrets.apiops_release_version }}/publisher
+          wget https://github.com/waelkdouh/apiopslab/releases/download/$apiops_release_version/publisher
           chmod +x ./publisher
-          ./publisher             
+          ./publisher
