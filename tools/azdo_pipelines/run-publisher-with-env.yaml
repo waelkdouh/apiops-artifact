@@ -84,7 +84,7 @@ steps:
     scriptType: bash
     scriptLocation: inlineScript
     inlineScript: |
-      wget https://github.com/waelkdouh/apiopslab/releases/download/github_release_version/publisher
+      wget https://github.com/waelkdouh/apiopslab/releases/download/$(apiops_release_version)/publisher
       chmod +x ./publisher
       ./publisher
       result=$?
