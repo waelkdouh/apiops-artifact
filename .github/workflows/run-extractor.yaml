@@ -56,7 +56,7 @@ jobs:
           API_SPECIFICATION_FORMAT: ${{ github.event.inputs.API_SPECIFICATION_FORMAT }} 
           CONFIGURATION_YAML_PATH:  ${{ GITHUB.WORKSPACE }}/${{ github.event.inputs.CONFIGURATION_YAML_PATH }}
         run: |
-          wget https://github.com/waelkdouh/apiopslab/releases/download/v.2/extractor
+          wget https://github.com/waelkdouh/apiopslab/releases/download/${{ secrets.apiops_release_version }}/extractor
           chmod +x ./extractor
           ./extractor
 
