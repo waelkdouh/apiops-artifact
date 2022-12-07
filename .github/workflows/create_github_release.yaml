@@ -34,16 +34,14 @@ jobs:
         run: |
           #generate the extractor binary
           cd tools/code/extractor/
-          dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor_linux
-          dotnet publish ./extractor.csproj --self-contained --runtime win-x64 -p:PublishSingleFile=true -o extractor_windows
+          dotnet publish ./extractor.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o extractor
           
           #go back to the root of the workspace
           cd ${{github.workspace}}
 
           #generate the publisher binary
           cd tools/code/publisher/
-          dotnet publish ./publisher.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o publisher_linux
-          dotnet publish ./publisher.csproj --self-contained --runtime win-x64 -p:PublishSingleFile=true -o publisher_windows
+          dotnet publish ./publisher.csproj --self-contained --runtime linux-x64 -p:PublishSingleFile=true -o publisher
           
           #replace the desired-version-goes-here with the release version in extractor and publisher github pipelines. Azure devops pipelines 
           # aren't affected
@@ -66,11 +64,8 @@ jobs:
           cp ${{github.workspace}}/tools/azdo_pipelines/*.yaml tools/pipelines
           cp ${{github.workspace}}/tools/utils/* tools/utils
           cp ${{github.workspace}}/tools/github_workflows/*.yaml .github/workflows
-          cp -r ${{github.workspace}}/tools/code/extractor/extractor/extractor_linux . 
-          cp -r ${{github.workspace}}/tools/code/extractor/extractor/extractor_windows . 
-          cp -r ${{github.workspace}}/tools/code/publisher/publisher/publisher_linux . 
-          cp -r ${{github.workspace}}/tools/code/publisher/publisher/publisher_windows . 
-          
+          cp -r ${{github.workspace}}/tools/code/extractor/extractor/extractor . 
+          cp -r ${{github.workspace}}/tools/code/publisher/publisher/publisher . 
           #create a package for the azure devops users
           zip Azure_DevOps.zip tools/pipelines/*.yaml tools/utils/create_pull_request.sh
           #create a package for the Github users
@@ -99,10 +94,8 @@ jobs:
      uses: softprops/action-gh-release@v1
      with:
        files: |
-         ${{github.workspace}}/finalartifacts/extractor_linux
-         ${{github.workspace}}/finalartifacts/extractor_windows
-         ${{github.workspace}}/finalartifacts/publisher_linux
-         ${{github.workspace}}/finalartifacts/publisher_windows
+         ${{github.workspace}}/finalartifacts/extractor
+         ${{github.workspace}}/finalartifacts/publisher
          ${{github.workspace}}/finalartifacts/Azure_DevOps.zip
          ${{github.workspace}}/finalartifacts/Github.zip
        name: APIOps Toolkit for Azure APIM ${{ github.event.inputs.Release_Version }}
