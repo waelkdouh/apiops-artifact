@@ -44,7 +44,7 @@ stages:
       - job: create_artifact_from_portal
         displayName: Create artifact from portal
         pool:
-          vmImage: windows-latest
+          vmImage: ubuntu-latest
         steps:
           - task: AzureCLI@2
             displayName: Set extraction variables
