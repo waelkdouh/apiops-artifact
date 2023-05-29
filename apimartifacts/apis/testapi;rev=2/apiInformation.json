@@ -9,7 +9,7 @@
     "protocols": [
       "https"
     ],
-    "serviceUrl": "https://apim-wk.azure-api.net/test",
+    "serviceUrl": "https://apim-wk.azure-api.net/test/rev2",
     "subscriptionKeyParameterNames": {
       "header": "Ocp-Apim-Subscription-Key",
       "query": "subscription-key"

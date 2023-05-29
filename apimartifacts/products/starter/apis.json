@@ -1,5 +1,11 @@
 [
   {
+    "name": "demo-conference-api"
+  },
+  {
     "name": "myversionedapi-v2"
+  },
+  {
+    "name": "testapi"
   }
 ]
