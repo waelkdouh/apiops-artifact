@@ -66,13 +66,29 @@ stages:
                 Write-Host "##vso[task.setvariable issecret=true;variable=AZURE_CLIENT_ID]$env:servicePrincipalId"
                 Write-Host "##vso[task.setvariable issecret=true;variable=AZURE_CLIENT_SECRET]$env:servicePrincipalKey"
                 Write-Host "##vso[task.setvariable issecret=true;variable=AZURE_TENANT_ID]$env:tenantId"
-                Write-Host "##vso[task.setvariable issecret=true;variable=AZURE_SUBSCRIPTION_ID]$(az account show --query "id" --output tsv)"
+                
+                if (-not $env:AZURE_SUBSCRIPTION_ID) {
+                    $subscriptionCount = az account list --query "length([])" --output tsv
+                    if ($subscriptionCount -eq 1) {
+                        $subscriptionId = az account list --query "[0].id" --output tsv
+                        Write-Host "Setting AZURE_SUBSCRIPTION_ID environment variable to: $subscriptionId"
+                        Write-Host "##vso[task.setvariable issecret=true;variable=AZURE_SUBSCRIPTION_ID]$($subscriptionId)"
+                    } 
+                    elseif ($subscriptionCount -gt 1) {
+                        Write-Host "Multiple subscriptions are accessible. Please set the AZURE_SUBSCRIPTION_ID environment variable manually."
+                        exit 1
+                    }
+                }
+                else {
+                  Write-Host "AZURE_SUBSCRIPTION_ID is already set to: $env:AZURE_SUBSCRIPTION_ID"
+                }
+
               addSpnToEnvironment: true
               failOnStandardError: true
           - task: PowerShell@2
             displayName: Fetch extractor
             inputs:
-              targetType: 'inline'
+              targetType: "inline"
               script: |
                 Set-StrictMode -Version Latest
                 $ErrorActionPreference = "Stop"
@@ -80,9 +96,22 @@ stages:
                 $InformationPreference = "Continue"
 
                 Write-Information "Downloading extractor..."
-                $extractorFileName = "$(Agent.OS)" -like "*win*" ? "extractor.win-x64.exe" : "extractor.linux-x64.exe"
-                $uri = "https://github.com/guythetechie/apiops/releases/download/$(apiops_release_version)/$extractorFileName"
-                $destinationFilePath = Join-Path "$(Agent.TempDirectory)" "extractor.exe"
+                $extractorFileName = "extractor.linux-x64"
+                $extractorFinalFileName = "extractor"
+               
+                if ("$(Agent.OS)" -like "*win*") {
+                  $extractorFileName = "extractor.win-x64.exe"
+                  $extractorFinalFileName = "extractor.exe"
+                }
+                elseif ("$(Agent.OS)" -like "*mac*" -and "$(Agent.OSArchitecture)" -like "*arm*") {
+                  $extractorFileName = "extractor.osx-arm64"
+                }
+                elseif ("$(Agent.OS)" -like "*mac*" -and "$(Agent.OSArchitecture)" -like "*x86_64*") {
+                  $extractorFileName = "extractor.osx-x64"
+                }
+                
+                $uri = "https://github.com/Azure/apiops/releases/download/$(apiops_release_version)/$extractorFileName"
+                $destinationFilePath = Join-Path "$(Agent.TempDirectory)" $extractorFinalFileName
                 Invoke-WebRequest -Uri "$uri" -OutFile "$destinationFilePath"
 
                 if ("$(Agent.OS)" -like "*linux*")
@@ -99,7 +128,7 @@ stages:
           - task: PowerShell@2
             displayName: Run extractor
             inputs:
-              targetType: 'inline'
+              targetType: "inline"
               script: |
                 Set-StrictMode -Version Latest
                 $ErrorActionPreference = "Stop"
@@ -121,9 +150,33 @@ stages:
               AZURE_RESOURCE_GROUP_NAME: ${{ parameters.RESOURCE_GROUP_NAME }}
               API_MANAGEMENT_SERVICE_NAME: ${{ parameters.APIM_INSTANCE_NAME }}
               API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: $(Build.ArtifactStagingDirectory)/${{ parameters.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}
-              API_SPECIFICATION_FORMAT:  ${{ parameters.API_SPECIFICATION_FORMAT }}
+              API_SPECIFICATION_FORMAT: ${{ parameters.API_SPECIFICATION_FORMAT }}
               ${{ if ne( parameters['CONFIGURATION_YAML_PATH'], 'Extract All' ) }}:
-                CONFIGURATION_YAML_PATH:  ${{ parameters.CONFIGURATION_YAML_PATH }}
+                CONFIGURATION_YAML_PATH: ${{ parameters.CONFIGURATION_YAML_PATH }}
+          #Running Super Linting Tool on the API(s) - START
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '12.x'
+            displayName: 'Install Node.js'
+
+          - script: |
+              npm install -g @stoplight/spectral-cli
+            displayName: 'Install Spectral'
+
+          - script: |
+              spectral lint --format stylish --format junit --output.junit $(Build.ArtifactStagingDirectory)/spectral-result.xml $(Build.ArtifactStagingDirectory)/${{ parameters.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}/apis/**/specification.{json,yaml,yml} -r https://raw.githubusercontent.com/connectedcircuits/devops-api-linter/main/rules.yaml
+            displayName: 'Run Spectral Linting'
+            continueOnError: true
+            failOnStderr: true
+          
+          - task: PublishTestResults@2
+            inputs:
+              testResultsFormat: 'JUnit'
+              testResultsFiles: '**/spectral-result.xml'
+              searchFolder: $(Build.ArtifactStagingDirectory)
+              testRunTitle: 'Linting results for API $(Build.SourceBranchName)'
+              failTaskOnFailedTests: false
+          #Running Super Linting Tool on the API(s) - END
           - task: PublishPipelineArtifact@1
             displayName: Publish pipeline artifact
             inputs:
@@ -136,7 +189,7 @@ stages:
       - job: create_artifacts_pull_request
         displayName: Create artifacts pull request
         pool:
-          vmImage: windows-latest
+          vmImage: ubuntu-latest
         steps:
           - task: DownloadPipelineArtifact@2
             displayName: Download pipeline artifact
@@ -147,7 +200,7 @@ stages:
           - task: PowerShell@2
             displayName: Create pull request
             inputs:
-              targetType: 'inline'
+              targetType: "inline"
               script: |
                 Set-StrictMode -Version Latest
                 $ErrorActionPreference = "Stop"
@@ -199,7 +252,7 @@ stages:
                     Write-Information "No changes exist to be published."
                     return
                 }
-
+                
                 Write-Information "Setting git user information..."
                 git config --global user.email "azuredevopsagent@azuredevops.com"
                 git config --global user.name "Azure Devops agent"
@@ -209,8 +262,14 @@ stages:
                 if ($LASTEXITCODE -ne 0) { throw "Adding Git changes failed." }
 
                 Write-Information "Committing changes"
-                git -C "$temporaryFolderPath" commit --message "Initial commit"
-                if ($LASTEXITCODE -ne 0) { throw "Committing Git changes failed." }
+                $commitOutput = git -C "$temporaryFolderPath" commit --message "Initial commit"
+                if ($LASTEXITCODE -ne 0) { 
+                  if ($commitOutput.Contains("nothing to commit, working tree clean")) {
+                    Write-Information "No changes exist to be published."
+                    return
+                  }
+                  throw "Committing Git changes failed." 
+                }
 
                 Write-Information "Pushing changes"
                 git -C "$temporaryFolderPath" -c http.extraheader="AUTHORIZATION: Bearer $(System.AccessToken)" push --set-upstream origin "$temporaryBranchName"
