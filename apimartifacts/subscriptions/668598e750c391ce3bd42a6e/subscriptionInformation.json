@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "displayName": "Product Starter subscription",
+    "scope": "/subscriptions/4833a5a2-133e-4bbc-9f54-86afc2f132bb/resourceGroups/rg-apiops-dev/providers/Microsoft.ApiManagement/service/apim-wk-dev/products/starter",
+    "allowTracing": false,
+    "ownerId": "/subscriptions/4833a5a2-133e-4bbc-9f54-86afc2f132bb/resourceGroups/rg-apiops-dev/providers/Microsoft.ApiManagement/service/apim-wk-dev/users/664e521daa62e22af816336b",
+    "state": "active"
+  }
+}
