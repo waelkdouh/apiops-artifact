@@ -1,0 +1,22 @@
+{
+  "properties": {
+    "path": "searchengine",
+    "apiRevision": "1",
+    "authenticationSettings": {
+      "oAuth2AuthenticationSettings": [],
+      "openidAuthenticationSettings": []
+    },
+    "description": "",
+    "isCurrent": true,
+    "displayName": "searchengine",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://www.bing.com",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}
