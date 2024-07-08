@@ -1,0 +1,19 @@
+type TodoItem {
+  id: ID!
+  title: String!
+  notes: String
+}
+
+type Query {
+  getAllTodoItems: [TodoItem!]!
+  getTodoItem(id: ID!): TodoItem
+}
+
+type Mutation {
+  createTodoItem(title: String!, notes: String): TodoItem
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}
