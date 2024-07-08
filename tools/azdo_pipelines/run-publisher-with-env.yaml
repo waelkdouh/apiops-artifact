@@ -25,18 +25,9 @@ steps:
     displayName: Print the name of the yaml configuration file if provided
   - script: echo Provided app service name was ${{ parameters.API_MANAGEMENT_SERVICE_NAME }}
     displayName: Print the name of the apim service name if provided
-  - task: Npm@1
-    displayName: "Installing Stoplight Spectral."
-    inputs:
-      command: custom
-      verbose: false
-      customCommand: "install -g @stoplight/spectral"
 
   - checkout: self
     fetchDepth: 0
-
-  - script: spectral lint "$(Build.SourcesDirectory)\${{ parameters.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}\apis\*.{json,yml,yaml}" --ruleset https://raw.githubusercontent.com/connectedcircuits/devops-api-linter/main/rules.yaml
-    displayName: "Lint API definition"
 
   - task: AzureCLI@2
     displayName: Set publishing variables
@@ -54,13 +45,27 @@ steps:
         Write-Host "##vso[task.setvariable issecret=true;variable=AZURE_CLIENT_ID]$env:servicePrincipalId"
         Write-Host "##vso[task.setvariable issecret=true;variable=AZURE_CLIENT_SECRET]$env:servicePrincipalKey"
         Write-Host "##vso[task.setvariable issecret=true;variable=AZURE_TENANT_ID]$env:tenantId"
-        Write-Host "##vso[task.setvariable issecret=true;variable=AZURE_SUBSCRIPTION_ID]$(az account show --query "id" --output tsv)"
+        if (-not $env:AZURE_SUBSCRIPTION_ID) {
+          $subscriptionCount = az account list --query "length([])" --output tsv
+          if ($subscriptionCount -eq 1) {
+              $subscriptionId = az account list --query "[0].id" --output tsv
+              Write-Host "Setting AZURE_SUBSCRIPTION_ID environment variable to: $subscriptionId"
+              Write-Host "##vso[task.setvariable issecret=true;variable=AZURE_SUBSCRIPTION_ID]$($subscriptionId)"
+          } 
+          elseif ($subscriptionCount -gt 1) {
+              Write-Host "Multiple subscriptions are accessible. Please set the AZURE_SUBSCRIPTION_ID environment variable manually."
+              exit 1
+          }
+        }
+        else {
+          Write-Host "AZURE_SUBSCRIPTION_ID is already set to: $env:AZURE_SUBSCRIPTION_ID"
+        }
       addSpnToEnvironment: true
       failOnStandardError: true
 
   # replacetokens@3 task will need to be installed to use
   - ${{ if ne(parameters.CONFIGURATION_YAML_PATH, '') }}:
-      - task: replacetokens@3
+      - task: qetza.replacetokens.replacetokens-task.replacetokens@3
         displayName: "Perform namevalue secret substitution in ${{ parameters.CONFIGURATION_YAML_PATH }}"
         inputs:
           targetFiles: ${{ parameters.CONFIGURATION_YAML_PATH }}
@@ -82,20 +87,39 @@ steps:
         $VerbosePreference = "Continue"
         $InformationPreference = "Continue"
 
-        Write-Information "Downloading publisher..."
-        $publisherFileName = "$(Agent.OS)" -like "*win*" ? "publisher.win-x64.exe" : "publisher.linux-x64.exe"
-        $uri = "https://github.com/guythetechie/apiops/releases/download/$(apiops_release_version)/$publisherFileName"
-        $destinationFilePath = Join-Path "$(Agent.TempDirectory)" "publisher.exe"
-        Invoke-WebRequest -Uri "$uri" -OutFile "$destinationFilePath"
+        Write-Information "Setting name variables..."
+        $releaseFileName = "publisher-linux-x64.zip"
+        $executableFileName = "publisher"
 
+        if ("$(Agent.OS)" -like "*win*") {
+          $releaseFileName = "publisher-win-x64.zip"
+          $executableFileName = "publisher.exe"
+        }
+        elseif ("$(Agent.OS)" -like "*mac*" -and "$(Agent.OSArchitecture)" -like "*arm*") {
+          $releaseFileName = "publisher-osx-arm64.zip"
+        }
+        elseif ("$(Agent.OS)" -like "*mac*" -and "$(Agent.OSArchitecture)" -like "*x86_64*") {
+          $releaseFileName = "publisher-osx-x64.zip"
+        }
+
+        Write-Information "Downloading release..."
+        $uri = "https://github.com/Azure/apiops/releases/download/$(apiops_release_version)/$releaseFileName"
+        $downloadFilePath = Join-Path "$(Agent.TempDirectory)" $releaseFileName
+        Invoke-WebRequest -Uri "$uri" -OutFile "$downloadFilePath"
+
+        Write-Information "Extracting release..."
+        $executableFolderPath = Join-Path "$(Agent.TempDirectory)" "publisher"
+        Expand-Archive -Path "$downloadFilePath" -DestinationPath "$executableFolderPath"
+        $executableFilePath = Join-Path "$executableFolderPath" $executableFileName
+
+        Write-Information "Setting file permissions..."
         if ("$(Agent.OS)" -like "*linux*")
         {
-          Write-Information "Setting file permissions..."
-          & chmod +x "$destinationFilePath"
+          & chmod +x "$executableFilePath"
           if ($LASTEXITCODE -ne 0) { throw "Setting file permissions failed."}
         }
 
-        Write-Host "##vso[task.setvariable variable=PUBLISHER_FILE_PATH]$destinationFilePath"
+        Write-Host "##vso[task.setvariable variable=PUBLISHER_FILE_PATH]$executableFilePath"
         Write-Information "Execution complete."
       failOnStderr: true
       pwsh: true
@@ -126,7 +150,7 @@ steps:
       API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: $(Build.SourcesDirectory)/${{ parameters.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}
       ${{ if ne( parameters['API_MANAGEMENT_SERVICE_NAME'], '' ) }}:
         API_MANAGEMENT_SERVICE_NAME: ${{ parameters.API_MANAGEMENT_SERVICE_NAME }}
-      ? ${{ if eq( parameters['COMMIT_ID'], 'publish-artifacts-in-last-commit' ) }}
-      : COMMIT_ID: $(Build.SourceVersion)
+      ${{ if eq( parameters['COMMIT_ID'], 'publish-artifacts-in-last-commit' ) }}:
+        COMMIT_ID: $(Build.SourceVersion)
       ${{ if ne( parameters['CONFIGURATION_YAML_PATH'], '' ) }}:
         CONFIGURATION_YAML_PATH: ${{ parameters.CONFIGURATION_YAML_PATH }}

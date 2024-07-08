@@ -2,19 +2,15 @@ parameters:
   - name: APIM_INSTANCE_NAME
     displayName: APIM instance name
     type: string
-    default: apim-wk
   - name: RESOURCE_GROUP_NAME
     displayName: APIM instance resource group name
     type: string
-    default: rg-apiops
   - name: APIM_REPOSITORY_NAME
     type: string
     displayName: APIM repository for pull request
-    default: apiops
   - name: API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH
     type: string
     displayName: Folder where you want to extract the artifacts
-    default: artifacts
   - name: TARGET_BRANCH_NAME
     type: string
     displayName: Target branch for pull request
@@ -29,7 +25,7 @@ parameters:
     type: string
     displayName: API Specification Format
     values:
-      - OpenAPIV3Yaml 
+      - OpenAPIV3Yaml
       - OpenAPIV3Json
       - OpenAPIV2Yaml
       - OpenAPIV2Json
@@ -95,33 +91,39 @@ stages:
                 $VerbosePreference = "Continue"
                 $InformationPreference = "Continue"
 
-                Write-Information "Downloading extractor..."
-                $extractorFileName = "extractor.linux-x64"
-                $extractorFinalFileName = "extractor"
-               
+                Write-Information "Setting name variables..."
+                $releaseFileName = "extractor-linux-x64.zip"
+                $executableFileName = "extractor"
+
                 if ("$(Agent.OS)" -like "*win*") {
-                  $extractorFileName = "extractor.win-x64.exe"
-                  $extractorFinalFileName = "extractor.exe"
+                  $releaseFileName = "extractor-win-x64.zip"
+                  $executableFileName = "extractor.exe"
                 }
                 elseif ("$(Agent.OS)" -like "*mac*" -and "$(Agent.OSArchitecture)" -like "*arm*") {
-                  $extractorFileName = "extractor.osx-arm64"
+                  $releaseFileName = "extractor-osx-arm64.zip"
                 }
                 elseif ("$(Agent.OS)" -like "*mac*" -and "$(Agent.OSArchitecture)" -like "*x86_64*") {
-                  $extractorFileName = "extractor.osx-x64"
+                  $releaseFileName = "extractor-osx-x64.zip"
                 }
-                
-                $uri = "https://github.com/Azure/apiops/releases/download/$(apiops_release_version)/$extractorFileName"
-                $destinationFilePath = Join-Path "$(Agent.TempDirectory)" $extractorFinalFileName
-                Invoke-WebRequest -Uri "$uri" -OutFile "$destinationFilePath"
 
+                Write-Information "Downloading release..."
+                $uri = "https://github.com/Azure/apiops/releases/download/$(apiops_release_version)/$releaseFileName"
+                $downloadFilePath = Join-Path "$(Agent.TempDirectory)" $releaseFileName
+                Invoke-WebRequest -Uri "$uri" -OutFile "$downloadFilePath"
+
+                Write-Information "Extracting release..."
+                $executableFolderPath = Join-Path "$(Agent.TempDirectory)" "extractor"
+                Expand-Archive -Path "$downloadFilePath" -DestinationPath "$executableFolderPath"
+                $executableFilePath = Join-Path "$executableFolderPath" $executableFileName
+
+                Write-Information "Setting file permissions..."
                 if ("$(Agent.OS)" -like "*linux*")
                 {
-                  Write-Information "Setting file permissions..."
-                  & chmod +x "$destinationFilePath"
+                  & chmod +x "$executableFilePath"
                   if ($LASTEXITCODE -ne 0) { throw "Setting file permissions failed."}
                 }
 
-                Write-Host "##vso[task.setvariable variable=EXTRACTOR_FILE_PATH]$destinationFilePath"
+                Write-Host "##vso[task.setvariable variable=EXTRACTOR_FILE_PATH]$executableFilePath"
                 Write-Information "Execution complete."
               failOnStderr: true
               pwsh: true
@@ -156,7 +158,7 @@ stages:
           #Running Super Linting Tool on the API(s) - START
           - task: NodeTool@0
             inputs:
-              versionSpec: '12.x'
+              versionSpec: '20.x'
             displayName: 'Install Node.js'
 
           - script: |

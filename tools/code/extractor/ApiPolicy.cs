@@ -1,40 +1,104 @@
-﻿using common;
+﻿using Azure.Core.Pipeline;
+using common;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace extractor;
 
-internal static class ApiPolicy
+internal delegate ValueTask ExtractApiPolicies(ApiName apiName, CancellationToken cancellationToken);
+
+internal delegate IAsyncEnumerable<(ApiPolicyName Name, ApiPolicyDto Dto)> ListApiPolicies(ApiName apiName, CancellationToken cancellationToken);
+
+internal delegate ValueTask WriteApiPolicyArtifacts(ApiPolicyName name, ApiPolicyDto dto, ApiName apiName, CancellationToken cancellationToken);
+
+internal delegate ValueTask WriteApiPolicyFile(ApiPolicyName name, ApiPolicyDto dto, ApiName apiName, CancellationToken cancellationToken);
+
+internal static class ApiPolicyServices
 {
-    public static async ValueTask ExportAll(ApiDirectory apiDirectory, ApiUri apiUri, ListRestResources listRestResources, GetRestResource getRestResource, ILogger logger, CancellationToken cancellationToken)
+    public static void ConfigureExtractApiPolicies(IServiceCollection services)
     {
-        await List(apiUri, listRestResources, cancellationToken)
-                .ForEachParallel(async policyName => await Export(apiDirectory, apiUri, policyName, getRestResource, logger, cancellationToken),
-                                 cancellationToken);
+        ConfigureListApiPolicies(services);
+        ConfigureWriteApiPolicyArtifacts(services);
+
+        services.TryAddSingleton(ExtractApiPolicies);
     }
 
-    private static IAsyncEnumerable<ApiPolicyName> List(ApiUri apiUri, ListRestResources listRestResources, CancellationToken cancellationToken)
+    private static ExtractApiPolicies ExtractApiPolicies(IServiceProvider provider)
     {
-        var policiesUri = new ApiPoliciesUri(apiUri);
-        var policyJsonObjects = listRestResources(policiesUri.Uri, cancellationToken);
-        return policyJsonObjects.Select(json => json.GetStringProperty("name"))
-                                .Select(name => new ApiPolicyName(name));
+        var list = provider.GetRequiredService<ListApiPolicies>();
+        var writeArtifacts = provider.GetRequiredService<WriteApiPolicyArtifacts>();
+
+        return async (apiName, cancellationToken) =>
+            await list(apiName, cancellationToken)
+                    .IterParallel(async policy => await writeArtifacts(policy.Name, policy.Dto, apiName, cancellationToken),
+                                  cancellationToken);
     }
 
-    private static async ValueTask Export(ApiDirectory apiDirectory, ApiUri apiUri, ApiPolicyName policyName, GetRestResource getRestResource, ILogger logger, CancellationToken cancellationToken)
+    private static void ConfigureListApiPolicies(IServiceCollection services)
     {
-        var policyFile = new ApiPolicyFile(policyName, apiDirectory);
+        CommonServices.ConfigureManagementServiceUri(services);
+        CommonServices.ConfigureHttpPipeline(services);
 
-        var policiesUri = new ApiPoliciesUri(apiUri);
-        var policyUri = new ApiPolicyUri(policyName, policiesUri);
-        var responseJson = await getRestResource(policyUri.Uri, cancellationToken);
-        var policyContent = responseJson.GetJsonObjectProperty("properties")
-                                        .GetStringProperty("value");
-
-        logger.LogInformation("Writing API policy file {filePath}...", policyFile.Path);
-        await policyFile.OverwriteWithText(policyContent, cancellationToken);
+        services.TryAddSingleton(ListApiPolicies);
     }
+
+    private static ListApiPolicies ListApiPolicies(IServiceProvider provider)
+    {
+        var serviceUri = provider.GetRequiredService<ManagementServiceUri>();
+        var pipeline = provider.GetRequiredService<HttpPipeline>();
+
+        return (apiName, cancellationToken) =>
+            ApiPoliciesUri.From(apiName, serviceUri)
+                          .List(pipeline, cancellationToken);
+    }
+
+    private static void ConfigureWriteApiPolicyArtifacts(IServiceCollection services)
+    {
+        ConfigureWriteApiPolicyFile(services);
+
+        services.TryAddSingleton(WriteApiPolicyArtifacts);
+    }
+
+    private static WriteApiPolicyArtifacts WriteApiPolicyArtifacts(IServiceProvider provider)
+    {
+        var writePolicyFile = provider.GetRequiredService<WriteApiPolicyFile>();
+
+        return async (name, dto, apiName, cancellationToken) =>
+            await writePolicyFile(name, dto, apiName, cancellationToken);
+    }
+
+    private static void ConfigureWriteApiPolicyFile(IServiceCollection services)
+    {
+        CommonServices.ConfigureManagementServiceDirectory(services);
+
+        services.TryAddSingleton(WriteApiPolicyFile);
+    }
+
+    private static WriteApiPolicyFile WriteApiPolicyFile(IServiceProvider provider)
+    {
+        var serviceDirectory = provider.GetRequiredService<ManagementServiceDirectory>();
+        var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
+
+        var logger = Common.GetLogger(loggerFactory);
+
+        return async (name, dto, apiName, cancellationToken) =>
+        {
+            var policyFile = ApiPolicyFile.From(name, apiName, serviceDirectory);
+
+            logger.LogInformation("Writing API policy file {PolicyFile}", policyFile);
+            var policy = dto.Properties.Value ?? string.Empty;
+            await policyFile.WritePolicy(policy, cancellationToken);
+        };
+    }
+}
+
+file static class Common
+{
+    public static ILogger GetLogger(ILoggerFactory loggerFactory) =>
+        loggerFactory.CreateLogger("ApiPolicyExtractor");
 }

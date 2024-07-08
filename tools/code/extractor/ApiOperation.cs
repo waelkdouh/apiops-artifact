@@ -1,42 +1,64 @@
-﻿using common;
+﻿using Azure.Core.Pipeline;
+using common;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace extractor;
 
-internal static class ApiOperation
+internal delegate ValueTask ExtractApiOperations(ApiName apiName, CancellationToken cancellationToken);
+
+internal delegate IAsyncEnumerable<ApiOperationName> ListApiOperations(ApiName apiName, CancellationToken cancellationToken);
+
+internal static class ApiOperationServices
 {
-    public static async ValueTask ExportAll(ApiUri apiUri, ApiDirectory apiDirectory, ListRestResources listRestResources, GetRestResource getRestResource, ILogger logger, CancellationToken cancellationToken)
+    public static void ConfigureExtractApiOperations(IServiceCollection services)
     {
-        await List(apiUri, listRestResources, cancellationToken)
-                .ForEachParallel(async operationName => await Export(apiDirectory, apiUri, operationName, listRestResources, getRestResource, logger, cancellationToken),
-                                 cancellationToken);
+        ConfigureListApiOperations(services);
+        ApiOperationPolicyServices.ConfigureExtractApiOperationPolicies(services);
+
+        services.TryAddSingleton(ExtractApiOperations);
     }
 
-    private static IAsyncEnumerable<ApiOperationName> List(ApiUri apiUri, ListRestResources listRestResources, CancellationToken cancellationToken)
+    private static ExtractApiOperations ExtractApiOperations(IServiceProvider provider)
     {
-        var operationsUri = new ApiOperationsUri(apiUri);
-        var operationJsonObjects = listRestResources(operationsUri.Uri, cancellationToken);
-        return operationJsonObjects.Select(json => json.GetStringProperty("name"))
-                                   .Select(name => new ApiOperationName(name));
+        var list = provider.GetRequiredService<ListApiOperations>();
+        var extractPolicies = provider.GetRequiredService<ExtractApiOperationPolicies>();
+        var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
+
+        var logger = Common.GetLogger(loggerFactory);
+
+        return async (apiName, cancellationToken) =>
+            await list(apiName, cancellationToken)
+                    .IterParallel(async name => await extractPolicies(name, apiName, cancellationToken),
+                                  cancellationToken);
     }
 
-    private static async ValueTask Export(ApiDirectory apiDirectory, ApiUri apiUri, ApiOperationName apiOperationName, ListRestResources listRestResources, GetRestResource getRestResource, ILogger logger, CancellationToken cancellationToken)
+    private static void ConfigureListApiOperations(IServiceCollection services)
     {
-        var apiOperationsDirectory = new ApiOperationsDirectory(apiDirectory);
-        var apiOperationDirectory = new ApiOperationDirectory(apiOperationName, apiOperationsDirectory);
+        CommonServices.ConfigureManagementServiceUri(services);
+        CommonServices.ConfigureHttpPipeline(services);
 
-        var apiOperationsUri = new ApiOperationsUri(apiUri);
-        var apiOperationUri = new ApiOperationUri(apiOperationName, apiOperationsUri);
-
-        await ExportPolicies(apiOperationDirectory, apiOperationUri, listRestResources, getRestResource, logger, cancellationToken);
+        services.TryAddSingleton(ListApiOperations);
     }
 
-    private static async ValueTask ExportPolicies(ApiOperationDirectory apiOperationDirectory, ApiOperationUri apiOperationUri, ListRestResources listRestResources, GetRestResource getRestResource, ILogger logger, CancellationToken cancellationToken)
+    private static ListApiOperations ListApiOperations(IServiceProvider provider)
     {
-        await ApiOperationPolicy.ExportAll(apiOperationDirectory, apiOperationUri, listRestResources, getRestResource, logger, cancellationToken);
+        var serviceUri = provider.GetRequiredService<ManagementServiceUri>();
+        var pipeline = provider.GetRequiredService<HttpPipeline>();
+
+        return (apiName, cancellationToken) =>
+            ApiOperationsUri.From(apiName, serviceUri)
+                            .ListNames(pipeline, cancellationToken);
     }
+}
+
+file static class Common
+{
+    public static ILogger GetLogger(ILoggerFactory loggerFactory) =>
+        loggerFactory.CreateLogger("ApiOperationExtractor");
 }
