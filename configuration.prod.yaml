@@ -1,6 +1,5 @@
-apimServiceName: apim-wk-prod
+apimServiceName: apim-wk-production
 namedValues:
- 
   - name: mysecretvalue
     properties:
       displayName: mysecretvalue
@@ -10,22 +9,29 @@ namedValues:
     properties:
       displayName: environment
       value: "https://www.search2.com"
-  - name: testSecret
+  - name: backendsecret
     properties:
-      displayName: testSecret
-      value: "{#testSecretValue#}"
+      displayName: backendsecret
+      value: "{#backendsecret#}"
+  - name: 667d78c0c588b629c091a551
+    properties:
+      displayName: Logger-Credentials--667d78c0c588b629c091a552
+      value: "{#prodappinsightsinstrumentationkeyValue#}"
 loggers:
-    - name: apim-wk-insights
+    - name: api-insights-dev
       properties:
         loggerType: applicationInsights
-        description: prod application insights
-        resourceId: "/subscriptions/4833a5a2-133e-4bbc-9f54-86afc2f132bb/resourceGroups/
-                   rg-apiops-prod/providers/microsoft.insights/components/apim-wk-prod-insights"
+        description: dev application insights
+        resourceId: "/subscriptions/4833a5a2-133e-4bbc-9f54-86afc2f132bb/resourceGroups/rg-apiops-prod/providers/microsoft.insights/components/apim-wk-production"
         credentials:
-          instrumentationKey: "{{Logger-Credentials--63bcbaac217d200c94c65f22}}"
+          instrumentationKey: "{{Logger-Credentials--667d78c0c588b629c091a552}}"
         isBuffered: true
 diagnostics:
    - name: applicationinsights
      properties:
-       verbosity: Error
-       loggerId: "/subscriptions/4833a5a2-133e-4bbc-9f54-86afc2f132bb/resourceGroups/rg-apiops-prod/providers/Microsoft.ApiManagement/service/apim-wk-prod/loggers/apim-wk-prod-insights"
+       verbosity: Information
+       loggerId: "/loggers/api-insights-dev"
+subscriptions:
+   - name: 668598e750c391ce3bd42a6e
+     properties:
+       ownerId: "/subscriptions/4833a5a2-133e-4bbc-9f54-86afc2f132bb/resourceGroups/rg-apiops-prod/providers/Microsoft.ApiManagement/service/apim-wk-prod/users/waelkdouh-gmail-com"
