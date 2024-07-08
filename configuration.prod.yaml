@@ -9,10 +9,6 @@ namedValues:
     properties:
       displayName: environment
       value: "https://www.search2.com"
-  - name: backendsecret
-    properties:
-      displayName: backendsecret
-      value: "{#backendsecret#}"
   - name: 667d78c0c588b629c091a551
     properties:
       displayName: Logger-Credentials--667d78c0c588b629c091a552
