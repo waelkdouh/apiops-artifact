@@ -1,7 +1,0 @@
-{
-  "properties": {
-    "displayName": "backendsecret",
-    "secret": true,
-    "tags": []
-  }
-}

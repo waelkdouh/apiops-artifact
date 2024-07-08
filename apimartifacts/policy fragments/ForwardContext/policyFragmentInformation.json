@@ -1,7 +1,0 @@
-{
-  "properties": {
-    "description": "",
-    "format": "rawxml",
-    "value": "\u003Cfragment\u003E\r\n\t\u003Cset-header name=\u0022x-request-context-data\u0022 exists-action=\u0022override\u0022\u003E\r\n\t\t\u003Cvalue\u003E@(context.User.Id)\u003C/value\u003E\r\n\t\t\u003Cvalue\u003E@(context.Deployment.Region)\u003C/value\u003E\r\n\t\u003C/set-header\u003E\r\n\u003C/fragment\u003E"
-  }
-}
