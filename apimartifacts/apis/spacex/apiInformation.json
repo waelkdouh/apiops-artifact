@@ -1,0 +1,23 @@
+{
+  "properties": {
+    "path": "spacex",
+    "apiRevision": "1",
+    "authenticationSettings": {
+      "oAuth2AuthenticationSettings": [],
+      "openidAuthenticationSettings": []
+    },
+    "isCurrent": true,
+    "displayName": "spacex",
+    "protocols": [
+      "http",
+      "https"
+    ],
+    "serviceUrl": "https://api.spacex.land/graphql/",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true,
+    "type": "graphql"
+  }
+}
