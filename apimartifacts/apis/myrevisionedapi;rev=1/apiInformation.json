@@ -1,0 +1,21 @@
+{
+  "properties": {
+    "path": "myrevisionedapi",
+    "apiRevision": "1",
+    "authenticationSettings": {
+      "oAuth2AuthenticationSettings": [],
+      "openidAuthenticationSettings": []
+    },
+    "description": "",
+    "displayName": "myrevisionedapi",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://www.bong.com",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}
